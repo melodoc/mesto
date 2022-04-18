@@ -1,0 +1,12 @@
+.profile {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    /* offsets */
+    padding-top: 40px;
+}
+
+@media screen and (max-width: 767px) {
+    .profile {
+        grid-template-columns: 1fr;
+    }
+}

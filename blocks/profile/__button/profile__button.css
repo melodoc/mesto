@@ -1,0 +1,10 @@
+.profile__button {
+    align-self: center;
+    /* offsets */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* color */
+    background-color: transparent;
+    border: 1px solid var(--white);
+}
