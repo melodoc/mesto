@@ -1,5 +1,5 @@
 .profile__button_action_add {
-    background: url('../../images/icon/add.png') no-repeat center;
+    background: url('../../../images/icon/add.png') no-repeat center;
     border-radius: 2px;
     /* size */
     width: 150px;
