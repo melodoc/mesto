@@ -11,6 +11,17 @@
 @import url('../blocks/header/__logo/header__logo.css');
 /* main */
 @import url('../blocks/main/main.css');
-
+/* profile */
+@import url('../blocks/profile/profile.css');
+@import url('../blocks/profile/__avatar/profile__avatar.css');
+@import url('../blocks/profile/__button/profile__button.css');
+@import url('../blocks/profile/__button_action_add/profile__button_action_add.css');
+@import url('../blocks/profile/__button_action_edit/profile__button_action_edit.css');
+@import url('../blocks/profile/__info/profile__info.css');
+@import url('../blocks/profile/__name/profile__name.css');
+@import url('../blocks/profile/__text/profile__text.css');
+/* photo-grid */
+@import url('../blocks/photo-grid/photo-grid.css');
+@import url('../blocks/photo-grid/__list/photo-grid__list.css');
 /* popup */
 @import url('../blocks/popup/popup.css');
