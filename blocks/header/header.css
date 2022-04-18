@@ -11,7 +11,11 @@
 
 @media screen and (max-width: 1023px) {
     .header {
-        padding-left: 27px;
+        /* size */
+        height: 55px;
+        /* offsets */
+        padding-top: 28px;
+        padding-left: 28px;
         transition: 0.5s ease-in-out;
     }
 }
