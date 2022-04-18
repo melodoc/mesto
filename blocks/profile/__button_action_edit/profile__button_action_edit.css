@@ -11,5 +11,8 @@
     .profile__button_action_edit {
         width: 18px;
         height: 18px;
+        /* offset */
+        margin-bottom: 8px;
+        margin-top: 0;
     }
 }

@@ -9,3 +9,13 @@
     font-size: 42px;
     line-height: 1.14;
 }
+
+@media screen and (max-width: 767px) {
+    .profile__name {
+        /* fonts */
+        font-size: 27px;
+        line-height: 1.2;
+        /* align-self: center; */
+        text-align: center;
+    }
+}
