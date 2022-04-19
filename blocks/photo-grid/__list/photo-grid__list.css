@@ -6,12 +6,13 @@
     padding-top: 50px;
     /* position */
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(282px, 1fr));
     grid-gap: 17px;
 }
 
 @media screen and (max-width: 767px) {
     .photo-grid__list {
-        grid-template-columns: 1fr;
+        padding: 0 19px;
+        padding-top: 36px;
     }
 }
