@@ -6,3 +6,9 @@
     background-color: var(--white);
     border-radius: 10px;
 }
+
+@media screen and (max-width: 767px) {
+    .popup__form {
+        width: 300px;
+    }
+}
