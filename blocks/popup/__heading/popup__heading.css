@@ -1,7 +1,8 @@
-.card__header {
+.popup__heading {
     /* offsets */
     margin: 0;
     padding: 0;
+    padding-bottom: 15px;
     /* font */
     font-style: normal;
     font-weight: 900;
@@ -9,8 +10,4 @@
     line-height: 1.2;
     /* decoration */
     color: var(--black);
-    max-width: 190px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
 }

@@ -1,0 +1,8 @@
+.popup__form {
+    /* size */
+    width: 430px;
+    height: 100%;
+    /* decoration */
+    background-color: var(--white);
+    border-radius: 10px;
+}
