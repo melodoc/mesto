@@ -29,5 +29,8 @@
 @import url('../blocks/card/__description/card__description.css');
 @import url('../blocks/card/__image/card__image.css');
 @import url('../blocks/card/__like-button/card__like-button.css');
+/* footer */
+@import url('../blocks/footer/footer.css');
+@import url('../blocks/footer/__copyright/footer__copyright.css');
 /* popup */
 @import url('../blocks/popup/popup.css');
