@@ -6,16 +6,18 @@
     margin: 0 auto;
     padding-top: 45px;
     border-bottom: 1px solid var(--gray);
+    /* smooth */
+    transition: 0.5s ease-in-out;
 }
 
 @media screen and (max-width: 1023px) {
     .header {
-        padding-left: 27px;
-    }
-}
-
-@media screen and (max-width: 767px) {
-    .header {
-        padding-left: 27px;
+        /* size */
+        height: 55px;
+        /* offsets */
+        padding-top: 28px;
+        padding-left: 28px;
+        /* smooth */
+        transition: 0.5s ease-in-out;
     }
 }
