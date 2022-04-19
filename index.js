@@ -34,3 +34,16 @@ function setInitialFormData() {
 }
 
 setInitialFormData();
+
+// submit form
+
+const formElement = document.querySelector('.popup__form');
+
+function formSubmitHandler(evt) {
+    evt.preventDefault();
+    profileName.textContent = popUpNameInput.value;
+    profileAbout.textContent = popUpAboutInput.value;
+    closeProfile();
+}
+
+formElement.addEventListener('submit', formSubmitHandler);
