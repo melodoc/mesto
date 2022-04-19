@@ -6,6 +6,7 @@
     margin: 0 auto;
     padding-top: 45px;
     border-bottom: 1px solid var(--gray);
+    /* smooth */
     transition: 0.5s ease-in-out;
 }
 
@@ -16,6 +17,7 @@
         /* offsets */
         padding-top: 28px;
         padding-left: 28px;
+        /* smooth */
         transition: 0.5s ease-in-out;
     }
 }

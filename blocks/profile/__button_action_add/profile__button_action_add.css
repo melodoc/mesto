@@ -1,11 +1,8 @@
 .profile__button_action_add {
     background: url('../../../images/icon/add.png') no-repeat center;
-    border-radius: 2px;
     /* size */
     width: 150px;
     height: 50px;
-    /* smooth */
-    transition: 0.5s ease-in-out;
 }
 
 @media screen and (max-width: 767px) {
@@ -13,7 +10,5 @@
         background: url('../../../images/icon/add_small.png') no-repeat center;
         /* size */
         width: 282px;
-        /* smooth */
-        transition: 0.5s ease-in-out;
     }
 }
