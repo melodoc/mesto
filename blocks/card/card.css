@@ -1,0 +1,9 @@
+.card {
+    background-color: var(--white);
+    border-radius: 10px;
+    /* size */
+    width: 282px;
+    height: 361px;
+    box-sizing: border-box;
+    margin-bottom: 3px;
+}

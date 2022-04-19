@@ -23,5 +23,11 @@
 /* photo-grid */
 @import url('../blocks/photo-grid/photo-grid.css');
 @import url('../blocks/photo-grid/__list/photo-grid__list.css');
+/* card */
+@import url('../blocks/card/card.css');
+@import url('../blocks/card/__header/card__header.css');
+@import url('../blocks/card/__description/card__description.css');
+@import url('../blocks/card/__image/card__image.css');
+@import url('../blocks/card/__like-button/card__like-button.css');
 /* popup */
 @import url('../blocks/popup/popup.css');
