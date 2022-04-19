@@ -1,4 +1,4 @@
-.profile__button {
+.popup__button {
     align-self: center;
     /* offsets */
     margin: 0;
@@ -6,12 +6,12 @@
     box-sizing: border-box;
     /* decoration */
     background-color: transparent;
-    border: 1px solid var(--white);
+    border: none;
     /* smooth */
     transition: 0.5s ease-in-out;
 }
 
-.profile__button:hover {
+.popup__button:hover {
     cursor: pointer;
     opacity: var(--hover-opacity);
 }
