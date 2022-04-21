@@ -12,3 +12,13 @@
     line-height: 1.233;
     text-align: center;
 }
+
+@media screen and (max-width: 767px) {
+    .popup__button_action_submit {
+        /* size */
+        height: 46px;
+        /* font */
+        font-size: 14px;
+        line-height: 1.214;
+    }
+}
