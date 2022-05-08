@@ -34,3 +34,8 @@ export const ActionType = {
     ADD: `add`,
     REMOVE: `remove`
 };
+
+export const ElementPositionType = {
+    AFTER: `after`,
+    BEFORE: `before`
+};
