@@ -1,6 +1,6 @@
 import { initialCards, selector, ActionType, ElementPositionType } from './constants.js';
 
-// open-close elements
+// open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
 const profilePopup = document.querySelector('#profile');
 const popupOpenedClass = 'popup_opened';
@@ -13,16 +13,17 @@ const profilePopupAboutInput = document.querySelector('.popup__input_type_about'
 const addCardPopupTitleInput = document.querySelector('.popup__input_type_title');
 const addCardPopupUrlInput = document.querySelector('.popup__input_type_url');
 
-// submit profile form element
+// submit form elements
 const profileForm = document.querySelector('#profile .popup__form');
+const addCardForm = document.querySelector('#add-card .popup__form');
 
 // card template
 const cardList = document.querySelector('.photo-grid__list');
 const openAddCardButton = document.querySelector('.profile__button_action_add');
 const addCardPopup = document.querySelector('#add-card');
-
-// submit add card form element
-const addCardForm = document.querySelector('#add-card .popup__form');
+const zoomPopup = document.querySelector('#zoom-img');
+const zoomPopupImage = zoomPopup.querySelector('.popup__image');
+const zoomPopupParagraph = zoomPopup.querySelector('.popup__description');
 
 // every close button
 const closeButtons = document.querySelectorAll('.popup__button_action_close');
@@ -93,12 +94,24 @@ function handleDeleteButton(evt) {
     cardElement.remove();
 }
 
+function openZoomPopup(evt) {
+    toggleClassList('add', zoomPopup);
+    zoomPopupImage.src = evt.target.currentSrc;
+    zoomPopupParagraph.textContent = evt.target.name;
+}
+
+function closeZoomPopup() {
+    toggleClassList('remove', zoomPopup);
+}
+
 function fillCardContent(element, card) {
     element.querySelector(selector.header).textContent = card.name;
     element.querySelector(selector.image).alt = card.name;
+    element.querySelector(selector.image).name = card.name;
     element.querySelector(selector.image).src = card.link;
     element.querySelector(selector.like).addEventListener('click', handleLikeButton);
     element.querySelector(selector.delete).addEventListener('click', handleDeleteButton);
+    element.querySelector(selector.image).addEventListener('click', openZoomPopup);
 }
 
 function addCardElement(card, position = ElementPositionType.AFTER) {
@@ -167,6 +180,7 @@ addCardForm.addEventListener('submit', handleAddCardPopupSubmit);
 function closeAnyPopup() {
     closeProfilePopup();
     closeAddCardPopup();
+    closeZoomPopup();
 }
 
 closeButtons.forEach((element) => element.addEventListener('click', closeAnyPopup));
