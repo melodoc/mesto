@@ -84,10 +84,15 @@ function createElementFromTemplate(templateId, selector) {
     return template.querySelector(selector).cloneNode(true);
 }
 
+function handleLikeButton(evt) {
+    evt.target.classList.toggle('card__like-button_state_active');
+}
+
 function fillCardContent(element, card) {
     element.querySelector(selector.header).textContent = card.name;
     element.querySelector(selector.image).alt = card.name;
     element.querySelector(selector.image).src = card.link;
+    element.querySelector(selector.like).addEventListener('click', handleLikeButton);
 }
 
 function addCardElement(card, position = ElementPositionType.AFTER) {
