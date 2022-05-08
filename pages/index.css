@@ -30,6 +30,7 @@
 @import url('../blocks/card/__image/card__image.css');
 @import url('../blocks/card/__like-button/card__like-button.css');
 @import url('../blocks/card/__like-button_state_active/card__like-button_state_active.css');
+@import url('../blocks/card/__trash-button/card__trash-button.css');
 /* footer */
 @import url('../blocks/footer/footer.css');
 @import url('../blocks/footer/__copyright/footer__copyright.css');
