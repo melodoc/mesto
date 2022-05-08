@@ -38,7 +38,7 @@
         <footer class="footer">
             <p class="footer__copyright">© 2021. melodoc</p>
         </footer>
-        <div class="popup">
+        <div class="popup" id="profile">
             <div class="popup__container">
                 <button class="popup__button popup__button_action_close" type="button" title="Закрыть"></button>
                 <form class="popup__form" name="profile-form">
@@ -69,6 +69,44 @@
                             title="Сохранить"
                         >
                             Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="popup" id="add-card">
+            <div class="popup__container">
+                <button class="popup__button popup__button_action_close" type="button" title="Закрыть"></button>
+                <form class="popup__form" name="add-card-form">
+                    <div class="popup__wrapper">
+                        <h3 class="popup__heading">Новое место</h3>
+                        <label class="popup__field">
+                            <input
+                                id="title"
+                                name="title"
+                                type="text"
+                                class="popup__input popup__input_type_title"
+                                placeholder="Название"
+                                autocomplete="off"
+                            />
+                        </label>
+                        <label class="popup__field">
+                            <input
+                                id="url"
+                                name="url"
+                                type="url"
+                                class="popup__input popup__input_type_url"
+                                placeholder="Ссылка на картинку"
+                                autocomplete="off"
+                            />
+                        </label>
+                        <button
+                            value="Сохранить"
+                            class="popup__button popup__button_action_submit"
+                            type="submit"
+                            title="Сохранить"
+                        >
+                            Создать
                         </button>
                     </div>
                 </form>

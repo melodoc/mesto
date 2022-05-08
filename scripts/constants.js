@@ -27,5 +27,10 @@ export const initialCards = [
 
 export const selector = {
     header: '.card__header',
-    image: '.card__image',
+    image: '.card__image'
+};
+
+export const ActionType = {
+    ADD: `add`,
+    REMOVE: `remove`
 };
