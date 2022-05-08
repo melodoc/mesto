@@ -24,3 +24,8 @@ export const initialCards = [
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
 ];
+
+export const selector = {
+    header: '.card__header',
+    image: '.card__image',
+};
