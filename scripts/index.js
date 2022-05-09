@@ -55,8 +55,6 @@ function closeProfilePopup() {
     closePopup(profilePopup);
 }
 
-openProfileButton.addEventListener('click', openProfile);
-
 // submit form manage
 function handleProfileFormSubmit(evt) {
     evt.preventDefault();
@@ -64,8 +62,6 @@ function handleProfileFormSubmit(evt) {
     profileAbout.textContent = profilePopupAboutInput.value;
     closeProfilePopup();
 }
-
-profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 // card load
 function createElementFromTemplate(templateId, selector) {
@@ -154,8 +150,6 @@ function closeAddCardPopup() {
     closePopup(addCardPopup);
 }
 
-openAddCardButton.addEventListener('click', openAddCardPopup);
-
 // clearInput for add card form
 function clearAddCardPopupInput() {
     addCardPopupTitleInput.value = '';
@@ -176,8 +170,6 @@ function handleAddCardPopupSubmit(evt) {
     closeAddCardPopup();
 }
 
-addCardForm.addEventListener('submit', handleAddCardPopupSubmit);
-
 // close any form
 function closeAnyPopup() {
     closeProfilePopup();
@@ -185,4 +177,8 @@ function closeAnyPopup() {
     closeZoomPopup();
 }
 
+openProfileButton.addEventListener('click', openProfile);
+profileForm.addEventListener('submit', handleProfileFormSubmit);
+openAddCardButton.addEventListener('click', openAddCardPopup);
+addCardForm.addEventListener('submit', handleAddCardPopupSubmit);
 closeButtons.forEach((element) => element.addEventListener('click', closeAnyPopup));
