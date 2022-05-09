@@ -18,7 +18,7 @@
 }
 
 .card__trash-button:hover,
-.card__trash-button:active{
+.card__trash-button:active {
     cursor: pointer;
     opacity: var(--hover-opacity);
 }
