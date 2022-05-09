@@ -32,12 +32,7 @@ export const selector = {
     delete: '.card__trash-button'
 };
 
-export const ActionType = {
-    ADD: `add`,
-    REMOVE: `remove`
-};
-
-export const ElementPositionType = {
+export const elementPositionType = {
     AFTER: `after`,
     BEFORE: `before`
 };
