@@ -1,4 +1,4 @@
-import { initialCards, selector, actionType, elementPositionType } from './constants.js';
+import { initialCards, selector, elementPositionType } from './constants.js';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
@@ -38,33 +38,21 @@ function setProfileFormData() {
     setInputValue(profilePopupAboutInput, profileAbout.textContent);
 }
 
-function toggleClassList(action, element, token = popupOpenedClass) {
-    function addClassList() {
-        return element.classList.add(token);
-    }
-
-    function removeClassList() {
-        return element.classList.remove(token);
-    }
-
-    switch (action) {
-        case actionType.ADD:
-            return addClassList();
-        case actionType.REMOVE:
-            return removeClassList();
-        default:
-            return addClassList();
-    }
+function openPopup(element, token = popupOpenedClass) {
+    element.classList.add(token);
+}
+function closePopup(element, token = popupOpenedClass) {
+    element.classList.remove(token);
 }
 
 // open-close implementation
 function openProfile() {
     setProfileFormData();
-    toggleClassList('add', profilePopup);
+    openPopup(profilePopup);
 }
 
 function closeProfilePopup() {
-    toggleClassList('remove', profilePopup);
+    closePopup(profilePopup);
 }
 
 openProfileButton.addEventListener('click', openProfile);
@@ -95,13 +83,13 @@ function handleDeleteButton(evt) {
 }
 
 function openZoomPopup(evt) {
-    toggleClassList('add', zoomPopup);
+    openPopup(zoomPopup);
     zoomPopupImage.src = evt.target.currentSrc;
     zoomPopupParagraph.textContent = evt.target.name;
 }
 
 function closeZoomPopup() {
-    toggleClassList('remove', zoomPopup);
+    closePopup(zoomPopup);
 }
 
 function getCardElements(element, selector) {
@@ -159,11 +147,11 @@ initialCards.forEach((card) => {
 
 // open-close implementation of add card form
 function openAddCardPopup() {
-    toggleClassList('add', addCardPopup);
+    openPopup(addCardPopup);
 }
 
 function closeAddCardPopup() {
-    toggleClassList('remove', addCardPopup);
+    closePopup(addCardPopup);
 }
 
 openAddCardButton.addEventListener('click', openAddCardPopup);
