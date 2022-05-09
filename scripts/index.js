@@ -1,4 +1,4 @@
-import { initialCards, selector, ActionType, ElementPositionType } from './constants.js';
+import { initialCards, selector, actionType, elementPositionType } from './constants.js';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
@@ -48,9 +48,9 @@ function toggleClassList(action, element, token = popupOpenedClass) {
     }
 
     switch (action) {
-        case ActionType.ADD:
+        case actionType.ADD:
             return addClassList();
-        case ActionType.REMOVE:
+        case actionType.REMOVE:
             return removeClassList();
         default:
             return addClassList();
@@ -128,7 +128,7 @@ function fillCardContent(element, card) {
     deleteButton.addEventListener('click', handleDeleteButton);
 }
 
-function addCardElement(card, position = ElementPositionType.AFTER) {
+function addCardElement(card, position = elementPositionType.AFTER) {
     const cardElement = createElementFromTemplate('#card', '.card');
     fillCardContent(cardElement, card);
 
@@ -141,10 +141,10 @@ function addCardElement(card, position = ElementPositionType.AFTER) {
     }
 
     switch (position) {
-        case ElementPositionType.AFTER:
+        case elementPositionType.AFTER:
             appendCardElement();
             break;
-        case ElementPositionType.BEFORE:
+        case elementPositionType.BEFORE:
             prependCardElement();
             break;
         default:
