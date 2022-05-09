@@ -104,14 +104,28 @@ function closeZoomPopup() {
     toggleClassList('remove', zoomPopup);
 }
 
+function getCardElements(element, selector) {
+    const { header, image, like } = selector;
+    const deleteButton = selector.delete;
+
+    return [
+        element.querySelector(header),
+        element.querySelector(image),
+        element.querySelector(like),
+        element.querySelector(deleteButton)
+    ];
+}
+
 function fillCardContent(element, card) {
-    element.querySelector(selector.header).textContent = card.name;
-    element.querySelector(selector.image).alt = card.name;
-    element.querySelector(selector.image).name = card.name;
-    element.querySelector(selector.image).src = card.link;
-    element.querySelector(selector.like).addEventListener('click', handleLikeButton);
-    element.querySelector(selector.delete).addEventListener('click', handleDeleteButton);
-    element.querySelector(selector.image).addEventListener('click', openZoomPopup);
+    const [header, image, like, deleteButton] = getCardElements(element, selector);
+
+    header.textContent = card.name;
+    image.alt = card.name;
+    image.name = card.name;
+    image.src = card.link;
+    image.addEventListener('click', openZoomPopup);
+    like.addEventListener('click', handleLikeButton);
+    deleteButton.addEventListener('click', handleDeleteButton);
 }
 
 function addCardElement(card, position = ElementPositionType.AFTER) {
