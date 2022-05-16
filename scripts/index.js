@@ -1,4 +1,5 @@
-import { initialCards, selector, elementPositionType } from './constants.js';
+import { initialCards, selector, elementPositionType, defaultValidationProps } from './constants.js';
+import { enableValidation } from './validation.js';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
@@ -114,17 +115,39 @@ function renderCard(card, position = elementPositionType.AFTER) {
     }
 }
 
-initialCards.forEach((card) => {
-    renderCard(card);
-});
-
 function closeAddCardPopup() {
     closePopup(addCardPopup);
 }
 
+function handleOverlayClose(popup, closePopUp) {
+    popup.addEventListener('click', (evt) => {
+        if (evt.target === evt.currentTarget) {
+            closePopUp();
+        }
+    });
+
+    window.addEventListener('keydown', (evt) => {
+        if (evt.key === 'Escape') {
+            closePopUp();
+        }
+    });
+}
+
+initialCards.forEach((card) => {
+    renderCard(card);
+});
+
+handleOverlayClose(profilePopup, closeProfilePopup);
+handleOverlayClose(addCardPopup, closeAddCardPopup);
+handleOverlayClose(zoomPopup, closeZoomPopup);
+
 openProfileButton.addEventListener('click', () => {
     setProfileFormData();
     openPopup(profilePopup);
+    enableValidation({
+        ...defaultValidationProps,
+        formSelector: '#profile .popup__form'
+    });
 });
 
 profileForm.addEventListener('submit', (evt) => {
@@ -136,6 +159,10 @@ profileForm.addEventListener('submit', (evt) => {
 
 openAddCardButton.addEventListener('click', () => {
     openPopup(addCardPopup);
+    enableValidation({
+        ...defaultValidationProps,
+        formSelector: '#add-card .popup__form'
+    });
 });
 
 addCardForm.addEventListener('submit', (evt) => {

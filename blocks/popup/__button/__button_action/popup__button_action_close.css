@@ -1,7 +1,7 @@
 .popup__button_action_close {
     position: absolute;
-    top: -40px;
-    right: -40px;
+    top: -36px;
+    right: -31px;
     /* decoration */
     width: var(--close-size);
     height: var(--close-size);

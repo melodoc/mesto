@@ -36,3 +36,12 @@ export const elementPositionType = {
     AFTER: `after`,
     BEFORE: `before`
 };
+
+export const defaultValidationProps = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button_action_submit',
+    inactiveButtonClass: 'popup__button_submit_inactive',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+};
