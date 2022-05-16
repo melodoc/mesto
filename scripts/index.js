@@ -115,13 +115,31 @@ function renderCard(card, position = elementPositionType.AFTER) {
     }
 }
 
+function closeAddCardPopup() {
+    closePopup(addCardPopup);
+}
+
+function handleOverlayClose(popup, closePopUp) {
+    popup.addEventListener('click', (evt) => {
+        if (evt.target === evt.currentTarget) {
+            closePopUp();
+        }
+    });
+
+    window.addEventListener('keydown', (evt) => {
+        if (evt.key === 'Escape') {
+            closePopUp();
+        }
+    });
+}
+
 initialCards.forEach((card) => {
     renderCard(card);
 });
 
-function closeAddCardPopup() {
-    closePopup(addCardPopup);
-}
+handleOverlayClose(profilePopup, closeProfilePopup);
+handleOverlayClose(addCardPopup, closeAddCardPopup);
+handleOverlayClose(zoomPopup, closeZoomPopup);
 
 openProfileButton.addEventListener('click', () => {
     setProfileFormData();
