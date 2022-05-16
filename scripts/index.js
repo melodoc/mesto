@@ -1,4 +1,5 @@
-import { initialCards, selector, elementPositionType } from './constants.js';
+import { initialCards, selector, elementPositionType, defaultValidationProps } from './constants.js';
+import { enableValidation } from './validation.js';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
@@ -125,6 +126,10 @@ function closeAddCardPopup() {
 openProfileButton.addEventListener('click', () => {
     setProfileFormData();
     openPopup(profilePopup);
+    enableValidation({
+        ...defaultValidationProps,
+        formSelector: '#profile .popup__form'
+    });
 });
 
 profileForm.addEventListener('submit', (evt) => {
@@ -136,6 +141,10 @@ profileForm.addEventListener('submit', (evt) => {
 
 openAddCardButton.addEventListener('click', () => {
     openPopup(addCardPopup);
+    enableValidation({
+        ...defaultValidationProps,
+        formSelector: '#add-card .popup__form'
+    });
 });
 
 addCardForm.addEventListener('submit', (evt) => {
