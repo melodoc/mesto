@@ -23,7 +23,7 @@ export class Card {
         this.cardData = cardData;
         this.templateSelector = templateSelector;
         this.openPopup = openPopup;
-        
+
         this._zoomPopupSelector = '#zoom-img';
         this._zoomPopupImageSelector = '.popup__image';
         this._zoomPopupParagraphSelector = '.popup__description';

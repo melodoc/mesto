@@ -13,7 +13,7 @@ The FormValidator class that sets up form field validation:
  * @property {string} submitButtonSelector - The selector of submit button
  * @property {string} inactiveButtonClass - The class for inactive button
  * @property {string} inputErrorClass - The class for input error
- * @property {string} errorClass - The class of visible error 
+ * @property {string} errorClass - The class of visible error
  */
 /** *
  * Configures form field validation from {@link validationProps} for formList
@@ -27,21 +27,21 @@ export class FormValidator {
         this.formList = formList;
     }
 
-    _showInputError (formElement, inputElement) {
+    _showInputError(formElement, inputElement) {
         const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
         inputElement.classList.add(this.validationProps.inputErrorClass);
         errorElement.textContent = inputElement.validationMessage;
         errorElement.classList.add(this.validationProps.errorClass);
     }
 
-    _hideInputError (formElement, inputElement) {
+    _hideInputError(formElement, inputElement) {
         const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
         inputElement.classList.remove(this.validationProps.inputErrorClass);
         errorElement.classList.remove(this.validationProps.errorClass);
         errorElement.textContent = '';
     }
-    
-    _checkInputValidity (formElement, inputElement) {
+
+    _checkInputValidity(formElement, inputElement) {
         if (!inputElement.validity.valid) {
             this._showInputError(formElement, inputElement);
         } else {
@@ -49,13 +49,13 @@ export class FormValidator {
         }
     }
 
-    _hasInvalidInput (inputList) {
+    _hasInvalidInput(inputList) {
         return inputList.some((inputElement) => {
             return !inputElement.validity.valid;
         });
     }
 
-    toggleButtonState (inputList, buttonElement) {
+    toggleButtonState(inputList, buttonElement) {
         if (this._hasInvalidInput(inputList)) {
             buttonElement.classList.add(this.validationProps.inactiveButtonClass);
             buttonElement.disabled = true;
