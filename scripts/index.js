@@ -1,5 +1,6 @@
-import { initialCards, selector, elementPositionType, defaultValidationProps } from './constants.js';
-import { enableValidation, toggleButtonState } from './validation.js';
+import { initialCards, elementPositionType, validationProps, cardSelectors } from './constants.js';
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
@@ -27,11 +28,11 @@ const cardTemplate = document.querySelector('#card').content;
 const cardList = document.querySelector('.photo-grid__list');
 const openAddCardButton = document.querySelector('.profile__button_action_add');
 const addCardPopup = document.querySelector('#add-card');
-const zoomPopup = document.querySelector('#zoom-img');
-const zoomPopupImage = zoomPopup.querySelector('.popup__image');
-const zoomPopupParagraph = zoomPopup.querySelector('.popup__description');
 
-const inactiveButtonClass = defaultValidationProps.inactiveButtonClass;
+// validation variables
+const formList = Array.from(document.querySelectorAll(validationProps.formSelector));
+const form = new FormValidator(validationProps, formList);
+form.enableValidation();
 
 // every close button
 const popups = document.querySelectorAll('.popup');
@@ -64,59 +65,6 @@ function closePopup(element, token = popupOpenedClass) {
     window.removeEventListener('keydown', closeByEscape);
 }
 
-// card load
-function createCardFromTemplate(selector) {
-    return cardTemplate.querySelector(selector).cloneNode(true);
-}
-
-function handleLikeButton(evt) {
-    evt.target.classList.toggle('card__like-button_state_active');
-}
-
-function handleDeleteButton(evt) {
-    const cardElement = evt.target.closest('.card');
-    cardElement.remove();
-}
-
-function setZoomPopupContent(data) {
-    zoomPopupImage.src = data.src;
-    zoomPopupParagraph.textContent = data.name;
-    zoomPopupImage.alt = data.name;
-}
-
-function getCardElements(element, selector) {
-    const { header, image, like } = selector;
-    const deleteButton = selector.delete;
-
-    return [
-        element.querySelector(header),
-        element.querySelector(image),
-        element.querySelector(like),
-        element.querySelector(deleteButton)
-    ];
-}
-
-function createCard(card) {
-    const cardElement = createCardFromTemplate('.card');
-    const [header, image, like, deleteButton] = getCardElements(cardElement, selector);
-    const { name, link } = card;
-
-    header.textContent = name;
-    image.alt = name;
-    image.name = name;
-    image.src = link;
-
-    image.addEventListener('click', () => {
-        openPopup(zoomPopup);
-        setZoomPopupContent({ name: name, src: link });
-    });
-
-    like.addEventListener('click', handleLikeButton);
-    deleteButton.addEventListener('click', handleDeleteButton);
-
-    return cardElement;
-}
-
 function insertCard(cardElement, position) {
     if (position === elementPositionType.BEFORE) {
         cardList.prepend(cardElement);
@@ -126,15 +74,14 @@ function insertCard(cardElement, position) {
 }
 
 initialCards.forEach((cardData) => {
-    const card = createCard(cardData);
-    insertCard(card);
+    const card = new Card(cardData, cardTemplate, openPopup);
+    const createdCard = card.createCard(cardSelectors);
+    insertCard(createdCard);
 });
-
-enableValidation(defaultValidationProps);
 
 openProfileButton.addEventListener('click', () => {
     setProfileFormData();
-    toggleButtonState(profileInputList, profileButtonElement, inactiveButtonClass);
+    form.toggleButtonState(profileInputList, profileButtonElement);
     openPopup(profilePopup);
 });
 
@@ -158,11 +105,12 @@ addCardForm.addEventListener('submit', (evt) => {
         link: addCardPopupUrlInput.value
     };
 
-    const card = createCard(cardData);
-    insertCard(card, 'before');
+    const card = new Card(cardData, cardTemplate, openPopup);
+    const createdCard = card.createCard(cardSelectors);
+    insertCard(createdCard, 'before');
 
     addCardForm.reset();
-    toggleButtonState(addCardInputList, addCardButtonElement, inactiveButtonClass);
+    form.toggleButtonState(addCardInputList, addCardButtonElement);
 
     const popup = evt.target.closest(`.${popupOpenedClass}`);
     closePopup(popup);
