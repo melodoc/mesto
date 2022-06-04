@@ -15,18 +15,20 @@ Card creates a card with text and a link to an image:
  * creates Card from {@link cardData} with text and a link to an image
  *
  * @param {cardData} cardData - The {@link cardData} to be created
- * @param templateSelector template content
+ * @param templateContent template content
  * @param openPopup a popup opening function
  */
 export class Card {
-    constructor(cardData, templateSelector, openPopup) {
+    constructor(cardData, templateContent, openPopup) {
         this.cardData = cardData;
-        this.templateSelector = templateSelector;
+        this.templateContent = templateContent;
         this.openPopup = openPopup;
 
         this._zoomPopupSelector = '#zoom-img';
         this._zoomPopupImageSelector = '.popup__image';
         this._zoomPopupParagraphSelector = '.popup__description';
+        this._zoomPopupImage = this._getZoomPopUpImage();
+        this._zoomPopupParagraph = this._getZoomPopUpParagraph();
     }
 
     _getZoomPopUp() {
@@ -53,16 +55,13 @@ export class Card {
     }
 
     _setZoomPopupContent(data) {
-        const zoomPopupImage = this._getZoomPopUpImage();
-        const zoomPopupParagraph = this._getZoomPopUpParagraph();
-
-        zoomPopupImage.src = data.src;
-        zoomPopupParagraph.textContent = data.name;
-        zoomPopupImage.alt = data.name;
+        this._zoomPopupImage.src = data.src;
+        this._zoomPopupParagraph.textContent = data.name;
+        this._zoomPopupImage.alt = data.name;
     }
 
     _createCardFromTemplate(selector) {
-        return this.templateSelector.querySelector(selector).cloneNode(true);
+        return this.templateContent.querySelector(selector).cloneNode(true);
     }
 
     _getCardElements(element, cardSelectors) {
