@@ -25,11 +25,11 @@ export const initialCards = [
     }
 ];
 
-export const cardSelectors = {
+export const selector = {
     header: '.card__header',
     image: '.card__image',
     like: '.card__like-button',
-    deleteButton: '.card__trash-button'
+    delete: '.card__trash-button'
 };
 
 export const elementPositionType = {
@@ -37,7 +37,7 @@ export const elementPositionType = {
     BEFORE: `before`
 };
 
-export const validationProps = {
+export const defaultValidationProps = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button_action_submit',
