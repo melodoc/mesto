@@ -1,6 +1,6 @@
-import { Card } from './Card.js';
 import { initialCards, elementPositionType, validationProps, cardSelectors } from './constants.js';
-import { enableValidation, toggleButtonState } from './validation.js';
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
@@ -29,7 +29,10 @@ const cardList = document.querySelector('.photo-grid__list');
 const openAddCardButton = document.querySelector('.profile__button_action_add');
 const addCardPopup = document.querySelector('#add-card');
 
-const inactiveButtonClass = validationProps.inactiveButtonClass;
+// validation variables
+const formList = Array.from(document.querySelectorAll(validationProps.formSelector));
+const form = new FormValidator(validationProps, formList);
+form.enableValidation();
 
 // every close button
 const popups = document.querySelectorAll('.popup');
@@ -62,7 +65,6 @@ function closePopup(element, token = popupOpenedClass) {
     window.removeEventListener('keydown', closeByEscape);
 }
 
-
 function insertCard(cardElement, position) {
     if (position === elementPositionType.BEFORE) {
         cardList.prepend(cardElement);
@@ -77,11 +79,9 @@ initialCards.forEach((cardData) => {
     insertCard(createdCard);
 });
 
-enableValidation(validationProps);
-
 openProfileButton.addEventListener('click', () => {
     setProfileFormData();
-    toggleButtonState(profileInputList, profileButtonElement, inactiveButtonClass);
+    form.toggleButtonState(profileInputList, profileButtonElement);
     openPopup(profilePopup);
 });
 
@@ -110,7 +110,7 @@ addCardForm.addEventListener('submit', (evt) => {
     insertCard(createdCard, 'before');
 
     addCardForm.reset();
-    toggleButtonState(addCardInputList, addCardButtonElement, inactiveButtonClass);
+    form.toggleButtonState(addCardInputList, addCardButtonElement);
 
     const popup = evt.target.closest(`.${popupOpenedClass}`);
     closePopup(popup);
