@@ -1,0 +1,5 @@
+.DS_Store
+.jshintrc
+.npmrc
+/node_modules
+/dist
