@@ -1,5 +1,5 @@
 /*
-The FormValidator class that sets up form field validation:
+Class FormValidator sets up form field validation:
      + accepts a settings object with selectors and form classes in the constructor;
      + takes as the second parameter an element of the form that is being validated;
      + has private methods that process the form: check the validity of the field, change the state of the submit button, set all handlers;

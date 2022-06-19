@@ -1,6 +1,7 @@
 import { initialCards, elementPositionType, validationProps, cardSelectors } from './constants.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+import { Section } from './Section.js';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
@@ -65,15 +66,21 @@ function insertCard(cardElement, position) {
 }
 
 function createCard(item) {
-    const card = new Card(item, cardTemplate, openPopup);
-    const createdCard = card.createCard(cardSelectors);
-    return createdCard;
+    return new Card(item, cardTemplate, openPopup).createCard(cardSelectors);
 }
 
-initialCards.forEach((cardData) => {
-    const card = createCard(cardData);
-    insertCard(card);
-});
+const onLoadCards = new Section(
+    {
+        items: initialCards,
+        renderer: (card) => {
+            const createdCard = createCard(card);
+            onLoadCards.addItem(createdCard);
+        },
+    },
+    '.photo-grid__list'
+);
+
+onLoadCards.render();
 
 // enable validation for forms
 

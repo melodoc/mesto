@@ -1,5 +1,5 @@
 /*
-Card creates a card with text and a link to an image:
+Class Card creates a card with text and a link to an image:
      + takes its data and the selector of its template element into the constructor;
      + contains private methods that work with markup, set event listeners;
      + contains private methods for each handler;
