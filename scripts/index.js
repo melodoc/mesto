@@ -1,4 +1,4 @@
-import { initialCards, elementPositionType, validationProps, cardSelectors } from './constants.js';
+import { initialCards, config, cardSelectors } from './constants.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { Section } from './Section.js';
@@ -22,7 +22,6 @@ const addCardForm = document.querySelector('#add-card .popup__form');
 
 // card template
 const cardTemplate = document.querySelector('#card').content;
-const cardList = document.querySelector('.photo-grid__list');
 const openAddCardButton = document.querySelector('.profile__button_action_add');
 const addCardPopup = document.querySelector('#add-card');
 
@@ -57,14 +56,6 @@ function closePopup(element, token = popupOpenedClass) {
     window.removeEventListener('keydown', closeByEscape);
 }
 
-function insertCard(cardElement, position) {
-    if (position === elementPositionType.BEFORE) {
-        cardList.prepend(cardElement);
-    } else {
-        cardList.append(cardElement);
-    }
-}
-
 function createCard(item) {
     return new Card(item, cardTemplate, openPopup).createCard(cardSelectors);
 }
@@ -75,9 +66,9 @@ const onLoadCards = new Section(
         renderer: (card) => {
             const createdCard = createCard(card);
             onLoadCards.addItem(createdCard);
-        },
+        }
     },
-    '.photo-grid__list'
+    config.cardListSelector
 );
 
 onLoadCards.render();
@@ -85,10 +76,10 @@ onLoadCards.render();
 // enable validation for forms
 
 const formValidators = {};
-const enableValidation = (validationProps) => {
-    const formList = Array.from(document.querySelectorAll(validationProps.formSelector));
+const enableValidation = (config) => {
+    const formList = Array.from(document.querySelectorAll(config.formSelector));
     formList.forEach((formElement) => {
-        const formValidator = new FormValidator(formElement, validationProps);
+        const formValidator = new FormValidator(formElement, config);
         const formName = formElement.getAttribute('name');
 
         formValidators[formName] = formValidator;
@@ -96,7 +87,7 @@ const enableValidation = (validationProps) => {
     });
 };
 
-enableValidation(validationProps);
+enableValidation(config);
 
 openProfileButton.addEventListener('click', () => {
     setProfileFormData();
@@ -119,13 +110,25 @@ openAddCardButton.addEventListener('click', () => {
 addCardForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    const cardData = {
-        name: addCardPopupTitleInput.value,
-        link: addCardPopupUrlInput.value
-    };
+    const cardData = [
+        {
+            name: addCardPopupTitleInput.value,
+            link: addCardPopupUrlInput.value
+        }
+    ];
 
-    const card = createCard(cardData);
-    insertCard(card, 'before');
+    const additionalCards = new Section(
+        {
+            items: cardData,
+            renderer: (card) => {
+                const createdCard = createCard(card);
+                additionalCards.addItem(createdCard, true);
+            }
+        },
+        config.cardListSelector
+    );
+
+    additionalCards.render();
 
     addCardForm.reset();
     formValidators[addCardForm.getAttribute('name')].resetValidation();

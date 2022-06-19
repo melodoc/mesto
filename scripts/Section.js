@@ -30,7 +30,11 @@ export class Section {
         });
     }
 
-    addItem(domElement) {
-        this.containerElement.append(domElement);
+    addItem(domElement, isBefore) {
+        if (isBefore) {
+            this.containerElement.prepend(domElement);
+        } else {
+            this.containerElement.append(domElement);
+        }
     }
 }
