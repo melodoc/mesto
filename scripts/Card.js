@@ -16,35 +16,18 @@ Class Card creates a card with text and a link to an image:
  *
  * @param {cardData} cardData - The {@link cardData} to be created
  * @param templateContent template content
- * @param popupOpen a popup opening function
+ * @param handleCardClick a popup opening function
  */
 export class Card {
-    constructor(cardData, templateContent, popupOpen) {
+    constructor(cardData, templateContent, handleCardClick ) {
         const { name, link } = cardData;
         this.name = name;
         this.link = link;
+
         this.templateContent = templateContent;
-        this.popupOpen = popupOpen;
-
+        this.handleCardClick = handleCardClick;
+        
         this._zoomPopupSelector = '#zoom-img';
-        this._zoomPopupImageSelector = '.popup__image';
-        this._zoomPopupParagraphSelector = '.popup__description';
-        this._zoomPopupImage = this._getZoomPopUpImage();
-        this._zoomPopupParagraph = this._getZoomPopUpParagraph();
-    }
-
-    _getZoomPopUp() {
-        return document.querySelector(this._zoomPopupSelector);
-    }
-
-    _getZoomPopUpImage() {
-        const zoomPopup = this._getZoomPopUp();
-        return zoomPopup.querySelector(this._zoomPopupImageSelector);
-    }
-
-    _getZoomPopUpParagraph() {
-        const zoomPopup = this._getZoomPopUp();
-        return zoomPopup.querySelector(this._zoomPopupParagraphSelector);
     }
 
     _handleLikeButton(evt) {
@@ -54,12 +37,6 @@ export class Card {
     _handleDeleteButton(evt) {
         const cardElement = evt.target.closest('.card');
         cardElement.remove();
-    }
-
-    _setZoomPopupContent(data) {
-        this._zoomPopupImage.src = data.src;
-        this._zoomPopupParagraph.textContent = data.name;
-        this._zoomPopupImage.alt = data.name;
     }
 
     _createCardFromTemplate(selector) {
@@ -86,11 +63,10 @@ export class Card {
         image.name = this.name;
         image.src = this.link;
 
-        const zoomPopup = this._getZoomPopUp();
+        const zoomPopup = document.querySelector(this._zoomPopupSelector);
 
         image.addEventListener('click', () => {
-            this.popupOpen(zoomPopup);
-            this._setZoomPopupContent({ name: this.name, src: this.link });
+            this.handleCardClick(zoomPopup, { name: this.name, src: this.link });
         });
 
         like.addEventListener('click', this._handleLikeButton);

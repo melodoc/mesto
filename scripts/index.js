@@ -3,6 +3,7 @@ import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { Section } from './Section.js';
 import { Popup } from './Popup.js';
+import { PopupWithImage } from './PopupWithImage.js';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
@@ -35,12 +36,15 @@ function setProfileFormData() {
     setInputValue(profilePopupNameInput, profileName.textContent);
     setInputValue(profilePopupAboutInput, profileAbout.textContent);
 }
-//popupSelector??
-const popup = new Popup();
+
+const popup = new Popup(config.popupOpenedSelector);
+const cardPopup = new PopupWithImage('#zoom-img');
+
 popup.setEventListeners();
+cardPopup.setEventListeners();
 
 function createCard(item) {
-    return new Card(item, cardTemplate, popup.open).createCard(cardSelectors);
+    return new Card(item, cardTemplate, cardPopup.open).createCard(cardSelectors);
 }
 
 const onLoadCards = new Section(
@@ -82,7 +86,7 @@ profileForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     profileName.textContent = profilePopupNameInput.value;
     profileAbout.textContent = profilePopupAboutInput.value;
-    popup.close(evt.target.closest(`.${config.popupOpenedClass}`));
+    popup.close(evt.target.closest(config.popupOpenedSelector));
 });
 
 openAddCardButton.addEventListener('click', () => {
@@ -114,6 +118,5 @@ addCardForm.addEventListener('submit', (evt) => {
 
     addCardForm.reset();
     formValidators[addCardForm.getAttribute('name')].resetValidation();
-
-    popup.close(evt.target.closest(`.${config.popupOpenedClass}`));
+    popup.close(evt.target.closest(config.popupOpenedSelector));
 });

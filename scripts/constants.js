@@ -45,4 +45,5 @@ export const config = {
     inactiveButtonClass: 'popup__button_submit_inactive',
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_visible',
+    popupOpenedSelector: '.popup_opened',
 };
