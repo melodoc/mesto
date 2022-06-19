@@ -16,15 +16,15 @@ Class Card creates a card with text and a link to an image:
  *
  * @param {cardData} cardData - The {@link cardData} to be created
  * @param templateContent template content
- * @param openPopup a popup opening function
+ * @param popupOpen a popup opening function
  */
 export class Card {
-    constructor(cardData, templateContent, openPopup) {
+    constructor(cardData, templateContent, popupOpen) {
         const { name, link } = cardData;
         this.name = name;
         this.link = link;
         this.templateContent = templateContent;
-        this.openPopup = openPopup;
+        this.popupOpen = popupOpen;
 
         this._zoomPopupSelector = '#zoom-img';
         this._zoomPopupImageSelector = '.popup__image';
@@ -89,7 +89,7 @@ export class Card {
         const zoomPopup = this._getZoomPopUp();
 
         image.addEventListener('click', () => {
-            this.openPopup(zoomPopup);
+            this.popupOpen(zoomPopup);
             this._setZoomPopupContent({ name: this.name, src: this.link });
         });
 
