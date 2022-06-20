@@ -5,6 +5,7 @@ import { Section } from './Section.js';
 import { Popup } from './Popup.js';
 import { PopupWithImage } from './PopupWithImage.js';
 import { PopupWithForm } from './PopupWithForm.js';
+import { UserInfo } from './UserInfo.js';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
@@ -74,9 +75,13 @@ const profileFormPopup = new PopupWithForm('#profile .popup__form', () => {
 
 profileFormPopup.setEventListeners();
 
+const userInfo = new UserInfo('.popup__input_type_name', '.popup__input_type_about');
+
 openProfileButton.addEventListener('click', () => {
-    profilePopupNameInput.setAttribute('value', profileName.textContent);
-    profilePopupAboutInput.setAttribute('value', profileAbout.textContent);
+    userInfo.setUserInfo({
+        name: profileName.textContent,
+        about: profileAbout.textContent
+    });
     formValidators[profileForm.getAttribute('name')].resetValidation();
     profileFormPopup.open(profilePopup);
 });
