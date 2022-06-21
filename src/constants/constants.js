@@ -37,11 +37,13 @@ export const elementPositionType = {
     BEFORE: `before`
 };
 
-export const validationProps = {
+export const config = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button_action_submit',
+    cardListSelector: '.photo-grid__list',
     inactiveButtonClass: 'popup__button_submit_inactive',
     inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
+    errorClass: 'popup__error_visible',
+    popupOpenedSelector: '.popup_opened',
 };
