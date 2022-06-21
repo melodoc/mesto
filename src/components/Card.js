@@ -1,5 +1,5 @@
 /*
-Card creates a card with text and a link to an image:
+Class Card creates a card with text and a link to an image:
      + takes its data and the selector of its template element into the constructor;
      + contains private methods that work with markup, set event listeners;
      + contains private methods for each handler;
@@ -16,33 +16,18 @@ Card creates a card with text and a link to an image:
  *
  * @param {cardData} cardData - The {@link cardData} to be created
  * @param templateContent template content
- * @param openPopup a popup opening function
+ * @param handleCardClick a popup opening function
  */
 export class Card {
-    constructor(cardData, templateContent, openPopup) {
-        this.cardData = cardData;
+    constructor(cardData, templateContent, handleCardClick ) {
+        const { name, link } = cardData;
+        this.name = name;
+        this.link = link;
+
         this.templateContent = templateContent;
-        this.openPopup = openPopup;
-
+        this.handleCardClick = handleCardClick;
+        
         this._zoomPopupSelector = '#zoom-img';
-        this._zoomPopupImageSelector = '.popup__image';
-        this._zoomPopupParagraphSelector = '.popup__description';
-        this._zoomPopupImage = this._getZoomPopUpImage();
-        this._zoomPopupParagraph = this._getZoomPopUpParagraph();
-    }
-
-    _getZoomPopUp() {
-        return document.querySelector(this._zoomPopupSelector);
-    }
-
-    _getZoomPopUpImage() {
-        const zoomPopup = this._getZoomPopUp();
-        return zoomPopup.querySelector(this._zoomPopupImageSelector);
-    }
-
-    _getZoomPopUpParagraph() {
-        const zoomPopup = this._getZoomPopUp();
-        return zoomPopup.querySelector(this._zoomPopupParagraphSelector);
     }
 
     _handleLikeButton(evt) {
@@ -52,12 +37,6 @@ export class Card {
     _handleDeleteButton(evt) {
         const cardElement = evt.target.closest('.card');
         cardElement.remove();
-    }
-
-    _setZoomPopupContent(data) {
-        this._zoomPopupImage.src = data.src;
-        this._zoomPopupParagraph.textContent = data.name;
-        this._zoomPopupImage.alt = data.name;
     }
 
     _createCardFromTemplate(selector) {
@@ -76,21 +55,18 @@ export class Card {
     }
 
     createCard(cardSelectors) {
-        const card = this.cardData;
         const cardElement = this._createCardFromTemplate('.card');
         const [header, image, like, deleteButton] = this._getCardElements(cardElement, cardSelectors);
-        const { name, link } = card;
 
-        header.textContent = name;
-        image.alt = name;
-        image.name = name;
-        image.src = link;
+        header.textContent = this.name;
+        image.alt = this.name;
+        image.name = this.name;
+        image.src = this.link;
 
-        const zoomPopup = this._getZoomPopUp();
+        const zoomPopup = document.querySelector(this._zoomPopupSelector);
 
         image.addEventListener('click', () => {
-            this.openPopup(zoomPopup);
-            this._setZoomPopupContent({ name: name, src: link });
+            this.handleCardClick(zoomPopup, { name: this.name, src: this.link });
         });
 
         like.addEventListener('click', this._handleLikeButton);

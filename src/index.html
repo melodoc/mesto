@@ -6,19 +6,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="keywords" content="фотографии, Mesto" />
         <meta name="description" content="Сайт куда можно добавлять фотографии, удалять их и ставить лайки" />
-        <link rel="stylesheet" href="./pages/index.css" />
         <title>Сайт Mesto</title>
     </head>
 
     <body class="page">
         <header class="header">
             <a class="header__link" href="">
-                <img class="header__logo" src="./images/icon/logo.svg" alt="Сайт Mesto" />
+                <img class="header__logo" src="<%=require('./images/icon/logo.svg')%>" alt="Сайт Mesto" />
             </a>
         </header>
         <main class="main">
             <section class="profile">
-                <img class="profile__avatar" src="./images/profile/avatar.jpg" alt="Аватар" />
+                <img class="profile__avatar" src="<%=require('./images/profile/avatar.jpg')%>" alt="Аватар" />
                 <div class="profile__info">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
                     <button
@@ -149,6 +148,5 @@
                 </div>
             </li>
         </template>
-        <script type="module" src="./scripts/index.js"></script>
     </body>
 </html>

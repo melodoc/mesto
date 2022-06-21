@@ -1,5 +1,5 @@
 /*
-The FormValidator class that sets up form field validation:
+Class FormValidator sets up form field validation:
      + accepts a settings object with selectors and form classes in the constructor;
      + takes as the second parameter an element of the form that is being validated;
      + has private methods that process the form: check the validity of the field, change the state of the submit button, set all handlers;
@@ -7,7 +7,7 @@ The FormValidator class that sets up form field validation:
 */
 /**
  * A cardData object
- * @typedef {Object} validationProps
+ * @typedef {Object} config
  * @property {string} formSelector - The selector of form
  * @property {string} inputSelector - The selector of input
  * @property {string} submitButtonSelector - The selector of submit button
@@ -16,30 +16,30 @@ The FormValidator class that sets up form field validation:
  * @property {string} errorClass - The class of visible error
  */
 /** *
- * Configures form field validation from {@link validationProps} for formElement
+ * Configures form field validation from {@link config} for formElement
  *
  * @param formElement formElement
- * @param {validationProps} validationProps - The {@link validationProps} selectors of form
+ * @param {config} config - The {@link config} selectors of form
  */
 export class FormValidator {
-    constructor(formElement, validationProps) {
+    constructor(formElement, config) {
         this.formElement = formElement;
-        this.validationProps = validationProps;
-        this._inputList = Array.from(this.formElement.querySelectorAll(this.validationProps.inputSelector));
-        this._buttonSubmit = this.formElement.querySelector(this.validationProps.submitButtonSelector);
+        this.config = config;
+        this._inputList = Array.from(this.formElement.querySelectorAll(this.config.inputSelector));
+        this._buttonSubmit = this.formElement.querySelector(this.config.submitButtonSelector);
     }
 
     _showInputError(inputElement) {
         const errorElement = this.formElement.querySelector(`.${inputElement.id}-error`);
-        inputElement.classList.add(this.validationProps.inputErrorClass);
+        inputElement.classList.add(this.config.inputErrorClass);
         errorElement.textContent = inputElement.validationMessage;
-        errorElement.classList.add(this.validationProps.errorClass);
+        errorElement.classList.add(this.config.errorClass);
     }
 
     _hideInputError(inputElement) {
         const errorElement = this.formElement.querySelector(`.${inputElement.id}-error`);
-        inputElement.classList.remove(this.validationProps.inputErrorClass);
-        errorElement.classList.remove(this.validationProps.errorClass);
+        inputElement.classList.remove(this.config.inputErrorClass);
+        errorElement.classList.remove(this.config.errorClass);
         errorElement.textContent = '';
     }
 
@@ -59,10 +59,10 @@ export class FormValidator {
 
     _toggleButtonState() {
         if (this._hasInvalidInput()) {
-            this._buttonSubmit.classList.add(this.validationProps.inactiveButtonClass);
+            this._buttonSubmit.classList.add(this.config.inactiveButtonClass);
             this._buttonSubmit.disabled = true;
         } else {
-            this._buttonSubmit.classList.remove(this.validationProps.inactiveButtonClass);
+            this._buttonSubmit.classList.remove(this.config.inactiveButtonClass);
             this._buttonSubmit.disabled = false;
         }
     }
