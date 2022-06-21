@@ -13,8 +13,6 @@ const openProfileButton = document.querySelector('.profile__button_action_edit')
 const profilePopup = document.querySelector('#profile');
 
 // input elements
-const profileName = document.querySelector('.profile__name');
-const profileAbout = document.querySelector('.profile__text');
 const profilePopupNameInput = document.querySelector('.popup__input_type_name');
 const profilePopupAboutInput = document.querySelector('.popup__input_type_about');
 const addCardPopupTitleInput = document.querySelector('.popup__input_type_title');
@@ -29,10 +27,10 @@ const cardTemplate = document.querySelector('#card').content;
 const openAddCardButton = document.querySelector('.profile__button_action_add');
 const addCardPopup = document.querySelector('#add-card');
 
-const popup = new Popup(config.popupOpenedSelector);
+const sharedPopup = new Popup(config.popupOpenedSelector);
 const cardPopup = new PopupWithImage('#zoom-img');
 
-popup.setEventListeners();
+sharedPopup.setEventListeners();
 cardPopup.setEventListeners();
 
 function createCard(item) {
@@ -68,21 +66,24 @@ const enableValidation = (config) => {
 
 enableValidation(config);
 
-const profileFormPopup = new PopupWithForm('#profile .popup__form', () => {
-    profileName.textContent = profilePopupNameInput.value;
-    profileAbout.textContent = profilePopupAboutInput.value;
+const profileFormUserInfo = new UserInfo({
+    nameSelector: '.profile__name',
+    aboutSelector: '.profile__text'
+});
+
+const profileFormPopup = new PopupWithForm('#profile .popup__form', ({ name, about }) => {
+    profileFormUserInfo.setUserInfo({ name, about });
     profileFormPopup.close(document.querySelector(config.popupOpenedSelector));
 });
 
 profileFormPopup.setEventListeners();
 
-const userInfo = new UserInfo('.popup__input_type_name', '.popup__input_type_about');
-
 openProfileButton.addEventListener('click', () => {
-    userInfo.setUserInfo({
-        name: profileName.textContent,
-        about: profileAbout.textContent
-    });
+    const { name, about } = profileFormUserInfo.getUserInfo();
+    
+    profilePopupNameInput.setAttribute('value', name);
+    profilePopupAboutInput.setAttribute('value', about);
+
     formValidators[profileForm.getAttribute('name')].resetValidation();
     profileFormPopup.open(profilePopup);
 });
