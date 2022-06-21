@@ -8,9 +8,8 @@ import { Popup } from './Popup.js';
 export class PopupWithForm extends Popup {
     constructor(popupSelector, formSubmitHandler) {
         super(popupSelector);
-        this._form = document.querySelector(this.popupSelector);
-        this._inputList = Array.from(this._form.querySelectorAll('.popup__input'));
-        this._submitBtn = this._form.querySelector('.popup__button_action_submit');
+        this._inputList = Array.from(this._popupElement.querySelectorAll('.popup__input'));
+        this._submitBtn = this._popupElement.querySelector('.popup__button_action_submit');
         this._formSubmitHandler = formSubmitHandler;
     }
 
@@ -24,14 +23,14 @@ export class PopupWithForm extends Popup {
 
     setEventListeners() {
         super.setEventListeners();
-        this._form.addEventListener('submit', (evt) => {
+        this._popupElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this._formSubmitHandler(this._getInputValues());
         });
     }
 
-    close(element) {
-        super.close(element);
-        this._form.reset();
+    close() {
+        super.close();
+        this._popupElement.reset();
     }
 }

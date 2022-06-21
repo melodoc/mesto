@@ -27,14 +27,21 @@ const cardTemplate = document.querySelector('#card').content;
 const openAddCardButton = document.querySelector('.profile__button_action_add');
 const addCardPopup = document.querySelector('#add-card');
 
-const sharedPopup = new Popup(config.popupOpenedSelector);
+const sharedPopup = new Popup('.popup');
 const cardPopup = new PopupWithImage('#zoom-img');
 
 sharedPopup.setEventListeners();
 cardPopup.setEventListeners();
 
+const cardData = {
+    name: addCardPopupTitleInput.value,
+    link: addCardPopupUrlInput.value
+};
+
 function createCard(item) {
-    return new Card(item, cardTemplate, cardPopup.open).createCard(cardSelectors);
+    return new Card(item, cardTemplate, ({ name, src }) => {
+        cardPopup.open({ name, src });
+    }).createCard(cardSelectors);
 }
 
 const onLoadCards = new Section(
@@ -73,48 +80,44 @@ const profileFormUserInfo = new UserInfo({
 
 const profileFormPopup = new PopupWithForm('#profile .popup__form', ({ name, about }) => {
     profileFormUserInfo.setUserInfo({ name, about });
-    profileFormPopup.close(document.querySelector(config.popupOpenedSelector));
+    profileFormPopup.close();
 });
 
 profileFormPopup.setEventListeners();
 
 openProfileButton.addEventListener('click', () => {
+    console.info('i worked as openProfileButton');
     const { name, about } = profileFormUserInfo.getUserInfo();
-    
+
     profilePopupNameInput.setAttribute('value', name);
     profilePopupAboutInput.setAttribute('value', about);
 
     formValidators[profileForm.getAttribute('name')].resetValidation();
-    profileFormPopup.open(profilePopup);
+    profileFormPopup.open();
 });
 
-const addCardFormPopup = new PopupWithForm('#add-card .popup__form', () => {
-    const cardData = [
-        {
-            name: addCardPopupTitleInput.value,
-            link: addCardPopupUrlInput.value
+const additionalCards = new Section(
+    {
+        items: [cardData],
+        renderer: (card) => {
+            const createdCard = createCard(card);
+            additionalCards.addItem(createdCard, true);
         }
-    ];
+    },
+    config.cardListSelector
+);
 
-    const additionalCards = new Section(
-        {
-            items: cardData,
-            renderer: (card) => {
-                const createdCard = createCard(card);
-                additionalCards.addItem(createdCard, true);
-            }
-        },
-        config.cardListSelector
-    );
-
-    additionalCards.render();
+const addCardFormPopup = new PopupWithForm('#add-card .popup__form', () => {
+    // addItem
+    additionalCards.addItem();
     addCardForm.reset();
     formValidators[addCardForm.getAttribute('name')].resetValidation();
-    addCardFormPopup.close(document.querySelector(config.popupOpenedSelector));
+    addCardFormPopup.close();
 });
 
 addCardFormPopup.setEventListeners();
 
 openAddCardButton.addEventListener('click', () => {
-    addCardFormPopup.open(addCardPopup);
+    console.info('i worked as openAddCardButton');
+    addCardFormPopup.open();
 });

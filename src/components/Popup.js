@@ -13,46 +13,38 @@ Contains the _handleEscClose private method, which contains the logic for closin
  */
 export class Popup {
     constructor(popupSelector) {
-        this.popupSelector = popupSelector;
+        this._popupElement = document.querySelector(popupSelector);
         this.popupOpenedClass = 'popup_opened';
         this.popupClosedClass = 'popup__button_action_close';
-
-        this.open = this.open.bind(this);
-        this.close = this.close.bind(this);
-        this._handleEscClose = this._handleEscClose.bind(this);
-        this.setEventListeners = this.setEventListeners.bind(this);
     }
 
-    open (element) {
-        element.classList.add(this.popupOpenedClass);
+    open() {
+        console.info(this._popupElement);
+        // console.info(this.popupOpenedClass);
+        this._popupElement.classList.add(this.popupOpenedClass);
+        console.info(this._popupElement.classList);
         window.addEventListener('keydown', this._handleEscClose);
     }
 
-    close (element) {
-        element.classList.remove(this.popupOpenedClass);
+    close() {
+        this._popupElement.classList.remove(this.popupOpenedClass);
         window.removeEventListener('keydown', this._handleEscClose);
-    };
+    }
 
-    _handleEscClose (evt) {
+    _handleEscClose(evt) {
         if (evt.key === 'Escape') {
-            const openedPopup = document.querySelector(this.popupSelector);
-            this.close(openedPopup);
+            this.close();
         }
-    };
+    }
 
-    setEventListeners () {
-        const popups = document.querySelectorAll('.popup');
-
-        popups.forEach((popupElement) => {
-            popupElement.addEventListener('mousedown', (evt) => {
-                if (evt.target.classList.contains(this.popupOpenedClass)) {
-                    this.close(popupElement);
-                }
-                if (evt.target.classList.contains(this.popupClosedClass)) {
-                    this.close(popupElement);
-                }
-            });
+    setEventListeners() {
+        this._popupElement.addEventListener('mousedown', (evt) => {
+            if (evt.target.classList.contains(this.popupOpenedClass)) {
+                this.close();
+            }
+            if (evt.target.classList.contains(this.popupClosedClass)) {
+                this.close();
+            }
         });
-        
     }
 }

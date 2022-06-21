@@ -63,10 +63,8 @@ export class Card {
         image.name = this.name;
         image.src = this.link;
 
-        const zoomPopup = document.querySelector(this._zoomPopupSelector);
-
         image.addEventListener('click', () => {
-            this.handleCardClick(zoomPopup, { name: this.name, src: this.link });
+            this.handleCardClick({ name: this.name, src: this.link });
         });
 
         like.addEventListener('click', this._handleLikeButton);
