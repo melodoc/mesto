@@ -6,11 +6,10 @@ import { Popup } from '../components/Popup.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
-import './index.css';
+// import './index.css';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
-const profilePopup = document.querySelector('#profile');
 
 // input elements
 const profilePopupNameInput = document.querySelector('.popup__input_type_name');
@@ -27,7 +26,7 @@ const cardTemplate = document.querySelector('#card').content;
 const openAddCardButton = document.querySelector('.profile__button_action_add');
 const addCardPopup = document.querySelector('#add-card');
 
-const sharedPopup = new Popup('.popup');
+const sharedPopup = new Popup('.popup__form');
 const cardPopup = new PopupWithImage('#zoom-img');
 
 sharedPopup.setEventListeners();
@@ -86,7 +85,6 @@ const profileFormPopup = new PopupWithForm('#profile .popup__form', ({ name, abo
 profileFormPopup.setEventListeners();
 
 openProfileButton.addEventListener('click', () => {
-    console.info('i worked as openProfileButton');
     const { name, about } = profileFormUserInfo.getUserInfo();
 
     profilePopupNameInput.setAttribute('value', name);
@@ -118,6 +116,5 @@ const addCardFormPopup = new PopupWithForm('#add-card .popup__form', () => {
 addCardFormPopup.setEventListeners();
 
 openAddCardButton.addEventListener('click', () => {
-    console.info('i worked as openAddCardButton');
     addCardFormPopup.open();
 });

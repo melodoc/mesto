@@ -19,15 +19,12 @@ export class Popup {
     }
 
     open() {
-        console.info(this._popupElement);
-        // console.info(this.popupOpenedClass);
-        this._popupElement.classList.add(this.popupOpenedClass);
-        console.info(this._popupElement.classList);
+        this._popupElement.closest('.popup').classList.add(this.popupOpenedClass);
         window.addEventListener('keydown', this._handleEscClose);
     }
 
     close() {
-        this._popupElement.classList.remove(this.popupOpenedClass);
+        this._popupElement.closest('.popup').classList.remove(this.popupOpenedClass);
         window.removeEventListener('keydown', this._handleEscClose);
     }
 
@@ -38,7 +35,7 @@ export class Popup {
     }
 
     setEventListeners() {
-        this._popupElement.addEventListener('mousedown', (evt) => {
+        this._popupElement.closest('.popup').addEventListener('mousedown', (evt) => {
             if (evt.target.classList.contains(this.popupOpenedClass)) {
                 this.close();
             }
