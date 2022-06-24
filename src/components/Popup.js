@@ -16,6 +16,7 @@ export class Popup {
         this._popupElement = document.querySelector(popupSelector);
         this.popupOpenedClass = 'popup_opened';
         this.popupClosedClass = 'popup__button_action_close';
+        this._handleEscClose = this._handleEscClose.bind(this);
     }
 
     open() {
