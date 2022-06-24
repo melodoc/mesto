@@ -24,18 +24,12 @@ const addCardForm = document.querySelector('#add-card .popup__form');
 // card template
 const cardTemplate = document.querySelector('#card').content;
 const openAddCardButton = document.querySelector('.profile__button_action_add');
-const addCardPopup = document.querySelector('#add-card');
 
-const sharedPopup = new Popup('.popup__form');
-const cardPopup = new PopupWithImage('#zoom-img');
-
+const sharedPopup = new Popup(config.formSelector);
 sharedPopup.setEventListeners();
-cardPopup.setEventListeners();
 
-const cardData = {
-    name: addCardPopupTitleInput.value,
-    link: addCardPopupUrlInput.value
-};
+const cardPopup = new PopupWithImage('#zoom-img');
+cardPopup.setEventListeners();
 
 function createCard(item) {
     return new Card(item, cardTemplate, ({ name, src }) => {
@@ -96,7 +90,12 @@ openProfileButton.addEventListener('click', () => {
 
 const additionalCards = new Section(
     {
-        items: [cardData],
+        items: [
+            {
+                name: addCardPopupTitleInput.value,
+                link: addCardPopupUrlInput.value
+            }
+        ],
         renderer: (card) => {
             const createdCard = createCard(card);
             additionalCards.addItem(createdCard, true);
@@ -105,16 +104,18 @@ const additionalCards = new Section(
     config.cardListSelector
 );
 
-const addCardFormPopup = new PopupWithForm('#add-card .popup__form', () => {
-    // addItem
-    additionalCards.addItem();
-    addCardForm.reset();
-    formValidators[addCardForm.getAttribute('name')].resetValidation();
+const addCardFormPopup = new PopupWithForm('#add-card .popup__form', (inputValues) => {
+    const createdCard = createCard({
+        name: inputValues.title,
+        link: inputValues.url
+    });
+    additionalCards.addItem(createdCard, true);
     addCardFormPopup.close();
 });
 
 addCardFormPopup.setEventListeners();
 
 openAddCardButton.addEventListener('click', () => {
+    formValidators[addCardForm.getAttribute('name')].resetValidation();
     addCardFormPopup.open();
 });
