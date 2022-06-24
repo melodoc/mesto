@@ -14,8 +14,6 @@ const openProfileButton = document.querySelector('.profile__button_action_edit')
 // input elements
 const profilePopupNameInput = document.querySelector('.popup__input_type_name');
 const profilePopupAboutInput = document.querySelector('.popup__input_type_about');
-const addCardPopupTitleInput = document.querySelector('.popup__input_type_title');
-const addCardPopupUrlInput = document.querySelector('.popup__input_type_url');
 
 // submit form elements
 const profileForm = document.querySelector('#profile .popup__form');
@@ -37,18 +35,18 @@ function createCard(item) {
     }).createCard(cardSelectors);
 }
 
-const onLoadCards = new Section(
+const renderedCards = new Section(
     {
         items: initialCards,
         renderer: (card) => {
             const createdCard = createCard(card);
-            onLoadCards.addItem(createdCard);
+            renderedCards.addItem(createdCard);
         }
     },
     config.cardListSelector
 );
 
-onLoadCards.render();
+renderedCards.render();
 
 // enable validation for forms
 
@@ -88,28 +86,12 @@ openProfileButton.addEventListener('click', () => {
     profileFormPopup.open();
 });
 
-const additionalCards = new Section(
-    {
-        items: [
-            {
-                name: addCardPopupTitleInput.value,
-                link: addCardPopupUrlInput.value
-            }
-        ],
-        renderer: (card) => {
-            const createdCard = createCard(card);
-            additionalCards.addItem(createdCard, true);
-        }
-    },
-    config.cardListSelector
-);
-
 const addCardFormPopup = new PopupWithForm('#add-card .popup__form', (inputValues) => {
     const createdCard = createCard({
         name: inputValues.title,
         link: inputValues.url
     });
-    additionalCards.addItem(createdCard, true);
+    renderedCards.addItem(createdCard, true);
     addCardFormPopup.close();
 });
 
