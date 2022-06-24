@@ -6,7 +6,7 @@ import { Popup } from '../components/Popup.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
-// import './index.css';
+import './index.css';
 
 // open-close profile elements
 const openProfileButton = document.querySelector('.profile__button_action_edit');
