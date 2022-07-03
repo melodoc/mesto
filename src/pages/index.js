@@ -39,7 +39,7 @@ sharedPopup.setEventListeners();
 const cardPopup = new PopupWithImage('#zoom-img');
 cardPopup.setEventListeners();
 
-const api = new Api(requestParams);
+const apiClient = new Api(requestParams);
 
 const createCard = (item) => {
     return new Card(item, cardTemplate, ({ name, src }) => {
@@ -67,16 +67,22 @@ const renderedCards = new Section(
     config.cardListSelector
 );
 
-api.getCards().then((cards) => {
-    cardsContainer.textContent = '';
-    renderedCards.setCards(cards);
-});
+apiClient
+    .getCards()
+    .then((cards) => {
+        cardsContainer.textContent = '';
+        renderedCards.setCards(cards);
+    })
+    .catch((err) => {
+        console.error(err);
+    });
 
 renderedCards.render();
 
 // enable validation for forms
 
 const formValidators = {};
+
 const enableValidation = (config) => {
     const formList = Array.from(document.querySelectorAll(config.formSelector));
     formList.forEach((formElement) => {
@@ -90,11 +96,16 @@ const enableValidation = (config) => {
 
 enableValidation(config);
 
-api.getUserInformation().then((value) => {
-    profileName.textContent = value.name;
-    profileAbout.textContent = value.about;
-    profileAvatar.src = value.avatar;
-});
+apiClient
+    .getUserInformation()
+    .then((value) => {
+        profileName.textContent = value.name;
+        profileAbout.textContent = value.about;
+        profileAvatar.src = value.avatar;
+    })
+    .catch((err) => {
+        console.error(err);
+    });
 
 const profileFormUserInfo = new UserInfo({
     nameSelector: profileSelectors.nameSelector,

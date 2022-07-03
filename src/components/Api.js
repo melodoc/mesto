@@ -8,14 +8,24 @@ export class Api {
         return fetch(`${this.baseUrl}/users/me`, {
             method: 'GET',
             headers: this.headers
-        }).then((res) => res.json());
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
     }
 
     getCards() {
-       return fetch(`${this.baseUrl}/cards`, {
+        return fetch(`${this.baseUrl}/cards`, {
             method: 'GET',
             headers: this.headers
-        }).then((res) => res.json());
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
     }
 
     getInitialCards() {
