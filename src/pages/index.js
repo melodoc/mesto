@@ -1,11 +1,4 @@
-import {
-    initialCards,
-    config,
-    cardSelectors,
-    profileSelectors,
-    requestParams,
-    loadingText
-} from '../constants/constants.js';
+import { config, cardSelectors, profileSelectors, requestParams, loadingText } from '../constants/constants.js';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
@@ -37,6 +30,9 @@ const addCardForm = document.querySelector('#add-card .popup__form');
 const cardTemplate = document.querySelector('#card').content;
 const openAddCardButton = document.querySelector('.profile__button_action_add');
 
+// cards container
+const cardsContainer = document.querySelector('.photo-grid__list');
+
 const sharedPopup = new Popup(config.formSelector);
 sharedPopup.setEventListeners();
 
@@ -51,15 +47,18 @@ const createCard = (item) => {
     }).createCard(cardSelectors);
 };
 
-const setProfileLoadingState = () => {
+const setLoadingState = () => {
     profileName.textContent = loadingText;
     profileAbout.textContent = loadingText;
     profileAvatar.src = loader;
+    cardsContainer.textContent = loadingText;
 };
+
+setLoadingState();
 
 const renderedCards = new Section(
     {
-        items: initialCards,
+        items: [],
         renderer: (card) => {
             const createdCard = createCard(card);
             renderedCards.addItem(createdCard);
@@ -67,6 +66,11 @@ const renderedCards = new Section(
     },
     config.cardListSelector
 );
+
+api.getCards().then((cards) => {
+    cardsContainer.textContent = '';
+    renderedCards.setCards(cards);
+});
 
 renderedCards.render();
 
@@ -85,8 +89,6 @@ const enableValidation = (config) => {
 };
 
 enableValidation(config);
-
-setProfileLoadingState();
 
 api.getUserInformation().then((value) => {
     profileName.textContent = value.name;

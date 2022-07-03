@@ -11,6 +11,13 @@ export class Api {
         }).then((res) => res.json());
     }
 
+    getCards() {
+       return fetch(`${this.baseUrl}/cards`, {
+            method: 'GET',
+            headers: this.headers
+        }).then((res) => res.json());
+    }
+
     getInitialCards() {
         console.info(this.baseUrl, this.headers);
     }
