@@ -113,6 +113,12 @@ const profileFormUserInfo = new UserInfo({
 });
 
 const profileFormPopup = new PopupWithForm('#profile .popup__form', ({ name, about }) => {
+    apiClient
+        .editProfile(name, about)
+        .then(() => console.log('Успешно обновлено'))
+        .catch((err) => {
+            console.error(err);
+        });
     profileFormUserInfo.setUserInfo({ name, about });
     profileFormPopup.close();
 });

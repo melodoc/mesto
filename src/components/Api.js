@@ -28,6 +28,22 @@ export class Api {
         });
     }
 
+    editProfile(name, about) {
+        return fetch(`${this.baseUrl}/users/me`, {
+            method: 'PATCH',
+            headers: { ...this.headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name,
+                about
+            })
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+    }
+
     getInitialCards() {
         console.info(this.baseUrl, this.headers);
     }
