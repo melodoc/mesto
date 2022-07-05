@@ -2,7 +2,8 @@ export const cardSelectors = {
     header: '.card__header',
     image: '.card__image',
     like: '.card__like-button',
-    deleteButton: '.card__trash-button'
+    deleteButton: '.card__trash-button',
+    likeCount: '.card__like-counter'
 };
 
 export const elementPositionType = {
