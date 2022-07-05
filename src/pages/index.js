@@ -115,7 +115,7 @@ const profileFormUserInfo = new UserInfo({
 const profileFormPopup = new PopupWithForm('#profile .popup__form', ({ name, about }) => {
     apiClient
         .editProfile(name, about)
-        .then(() => console.log('Успешно обновлено'))
+        .then(() => console.info('Успешно обновлены данные профиля'))
         .catch((err) => {
             console.error(err);
         });
@@ -140,6 +140,12 @@ const addCardFormPopup = new PopupWithForm('#add-card .popup__form', (inputValue
         name: inputValues.title,
         link: inputValues.url
     });
+    apiClient
+        .addNewCard(inputValues.title, inputValues.url)
+        .then(() => console.info('Успешно добавлена карточка'))
+        .catch((err) => {
+            console.error(err);
+        });
     renderedCards.addItem(createdCard, true);
     addCardFormPopup.close();
 });

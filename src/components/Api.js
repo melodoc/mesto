@@ -44,6 +44,22 @@ export class Api {
         });
     }
 
+    addNewCard(name, link) {
+        return fetch(`${this.baseUrl}/cards`, {
+            method: 'POST',
+            headers: { ...this.headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name,
+                link
+            })
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+    }
+
     getInitialCards() {
         console.info(this.baseUrl, this.headers);
     }
