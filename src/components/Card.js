@@ -20,15 +20,18 @@ Class Card creates a card with text and a link to an image:
  */
 export class Card {
     constructor(cardData, templateContent, handleCardClick) {
-        const { name, link, likes } = cardData;
+        const { name, link, owner, likes } = cardData;
         this.name = name;
         this.link = link;
-        this.likes = likes.length;
+        this.userId = owner._id;
+        // if creating card set likes to 0
+        this.likes = likes?.length ?? 0;
 
         this.templateContent = templateContent;
         this.handleCardClick = handleCardClick;
 
         this._zoomPopupSelector = '#zoom-img';
+        this._myId = 'e33c29cd8084db82bb563ae9';
     }
 
     _handleLikeButton(evt) {
@@ -70,8 +73,13 @@ export class Card {
             this.handleCardClick({ name: this.name, src: this.link });
         });
 
+        if (this.userId === this._myId) {
+            deleteButton.addEventListener('click', this._handleDeleteButton);
+        } else {
+            deleteButton.style.display = 'none';
+        }
+
         like.addEventListener('click', this._handleLikeButton);
-        deleteButton.addEventListener('click', this._handleDeleteButton);
 
         return cardElement;
     }

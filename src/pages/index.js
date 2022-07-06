@@ -136,18 +136,29 @@ openProfileButton.addEventListener('click', () => {
 });
 
 const addCardFormPopup = new PopupWithForm('#add-card .popup__form', (inputValues) => {
-    const createdCard = createCard({
-        name: inputValues.title,
-        link: inputValues.url
-    });
+    // need to set userOwner
+    apiClient
+        .getUserInformation()
+        .then((value) => {
+            const createdCard = createCard({
+                name: inputValues.title,
+                link: inputValues.url,
+                owner: value
+            });
+
+            renderedCards.addItem(createdCard, true);
+            addCardFormPopup.close();
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+
     apiClient
         .addNewCard(inputValues.title, inputValues.url)
         .then(() => console.info('Успешно добавлена карточка'))
         .catch((err) => {
             console.error(err);
         });
-    renderedCards.addItem(createdCard, true);
-    addCardFormPopup.close();
 });
 
 addCardFormPopup.setEventListeners();
