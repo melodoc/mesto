@@ -6,6 +6,7 @@ import { Popup } from '../components/Popup.js';
 import { Api } from '../components/Api.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js';
 import { UserInfo } from '../components/UserInfo.js';
 import loader from '../images/loader.gif';
 import './index.css';
@@ -43,9 +44,16 @@ cardPopup.setEventListeners();
 const apiClient = new Api(requestParams);
 
 const createCard = (item) => {
-    return new Card(item, cardTemplate, ({ name, src }) => {
-        cardPopup.open({ name, src });
-    }).createCard(cardSelectors);
+    return new Card(
+        item,
+        cardTemplate,
+        ({ name, src }) => {
+            cardPopup.open({ name, src });
+        },
+        () => {
+            popupDeleteConfirmation.open();
+        }
+    ).createCard(cardSelectors);
 };
 
 const setLoadingState = () => {
@@ -122,7 +130,8 @@ const profileFormPopup = new PopupWithForm('#profile .popup__form', ({ name, abo
         })
         .catch((err) => {
             console.error(err);
-        }).finally(() => {
+        })
+        .finally(() => {
             profilePopupSaveButton.textContent = 'Сохранить';
         });
 
@@ -174,3 +183,12 @@ openAddCardButton.addEventListener('click', () => {
     formValidators[addCardForm.getAttribute('name')].resetValidation();
     addCardFormPopup.open();
 });
+
+const popupDeleteConfirmation = new PopupWithConfirmation('#delete-confirmation .popup__form', handleCardDelete);
+
+popupDeleteConfirmation.setEventListeners();
+
+function handleCardDelete(evt) {
+    evt.preventDefault();
+    popupDeleteConfirmation.close();
+}
