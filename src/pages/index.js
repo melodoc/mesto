@@ -16,6 +16,7 @@ const openProfileButton = document.querySelector('.profile__button_action_edit')
 // input elements
 const profilePopupNameInput = document.querySelector('.popup__input_type_name');
 const profilePopupAboutInput = document.querySelector('.popup__input_type_about');
+const profilePopupSaveButton = document.querySelector('.popup__button_action_submit');
 
 //profile names
 const profileName = document.querySelector(profileSelectors.nameSelector);
@@ -113,12 +114,18 @@ const profileFormUserInfo = new UserInfo({
 });
 
 const profileFormPopup = new PopupWithForm('#profile .popup__form', ({ name, about }) => {
+    profilePopupSaveButton.textContent = 'Сохранение...';
     apiClient
         .editProfile(name, about)
-        .then(() => console.info('Успешно обновлены данные профиля'))
+        .then(() => {
+            console.info('Успешно обновлены данные профиля');
+        })
         .catch((err) => {
             console.error(err);
+        }).finally(() => {
+            profilePopupSaveButton.textContent = 'Сохранить';
         });
+
     profileFormUserInfo.setUserInfo({ name, about });
     profileFormPopup.close();
 });
