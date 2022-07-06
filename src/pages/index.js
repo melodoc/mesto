@@ -35,6 +35,9 @@ const openAddCardButton = document.querySelector('.profile__button_action_add');
 // cards container
 const cardsContainer = document.querySelector('.photo-grid__list');
 
+// cards button
+const deleteCardPopupSaveButton = document.querySelector('#delete-confirmation .popup__button_action_submit');
+
 const sharedPopup = new Popup(config.formSelector);
 sharedPopup.setEventListeners();
 
@@ -50,9 +53,7 @@ const createCard = (item) => {
         ({ name, src }) => {
             cardPopup.open({ name, src });
         },
-        () => {
-            popupDeleteConfirmation.open();
-        }
+        handleCardConfirm
     ).createCard(cardSelectors);
 };
 
@@ -152,26 +153,20 @@ openProfileButton.addEventListener('click', () => {
 });
 
 const addCardFormPopup = new PopupWithForm('#add-card .popup__form', (inputValues) => {
-    // need to set userOwner
     apiClient
-        .getUserInformation()
+        .addNewCard(inputValues.title, inputValues.url)
         .then((value) => {
             const createdCard = createCard({
                 name: inputValues.title,
                 link: inputValues.url,
-                owner: value
+                owner: value.owner,
+                _id: value._id
             });
 
             renderedCards.addItem(createdCard, true);
             addCardFormPopup.close();
+            console.info('Успешно добавлена карточка', value);
         })
-        .catch((err) => {
-            console.error(err);
-        });
-
-    apiClient
-        .addNewCard(inputValues.title, inputValues.url)
-        .then(() => console.info('Успешно добавлена карточка'))
         .catch((err) => {
             console.error(err);
         });
@@ -185,10 +180,27 @@ openAddCardButton.addEventListener('click', () => {
 });
 
 const popupDeleteConfirmation = new PopupWithConfirmation('#delete-confirmation .popup__form', handleCardDelete);
-
 popupDeleteConfirmation.setEventListeners();
+
+const handleCardConfirm = (id) => {
+    popupDeleteConfirmation.open(id);
+};
 
 function handleCardDelete(evt) {
     evt.preventDefault();
+    const cardId = popupDeleteConfirmation.getCardId();
+    deleteCardPopupSaveButton.textContent = 'Удаление...';
+    apiClient
+        .deleteCardById(cardId)
+        .then(() => {
+            document.getElementById(cardId).closest('.card').remove();
+            console.info('Удалена карточка:', cardId);
+        })
+        .catch((err) => {
+            console.error(err);
+        })
+        .finally(() => {
+            deleteCardPopupSaveButton.textContent = 'Да';
+        });
     popupDeleteConfirmation.close();
 }

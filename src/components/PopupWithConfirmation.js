@@ -4,7 +4,11 @@ export class PopupWithConfirmation extends Popup {
     constructor(popupSelector, handleConfirm) {
         super(popupSelector);
         this._handleConfirm = handleConfirm.bind(this);
-        console.info(popupSelector);
+        this._cardId;
+    }
+
+    getCardId() {
+        return this._cardId;
     }
 
     setEventListeners() {
@@ -12,9 +16,8 @@ export class PopupWithConfirmation extends Popup {
         this._popupElement.addEventListener('submit', this._handleConfirm);
     }
 
-    open() {
-        console.info();
+    open(id) {
         super.open();
-        // evt.target.closest('.card').remove();
+        this._cardId = id;
     }
 }

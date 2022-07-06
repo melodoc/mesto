@@ -60,6 +60,18 @@ export class Api {
         });
     }
 
+    deleteCardById(cardId) {
+        return fetch(`${this.baseUrl}/cards/${cardId}`, {
+            method: 'DELETE',
+            headers: { ...this.headers, 'Content-Type': 'application/json' }
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+    }
+
     getInitialCards() {
         console.info(this.baseUrl, this.headers);
     }
