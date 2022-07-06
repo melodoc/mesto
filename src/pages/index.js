@@ -53,7 +53,8 @@ const createCard = (item) => {
         ({ name, src }) => {
             cardPopup.open({ name, src });
         },
-        handleCardConfirm
+        handleCardConfirm,
+        handleLikeButton
     ).createCard(cardSelectors);
 };
 
@@ -184,6 +185,37 @@ popupDeleteConfirmation.setEventListeners();
 
 const handleCardConfirm = (id) => {
     popupDeleteConfirmation.open(id);
+};
+
+const handleLikeButton = (evt) => {
+    evt.target.classList.toggle('card__like-button_state_active');
+
+    const currentCard = evt.target.closest('.card');
+    const cardId = currentCard.querySelector('.card__image').id;
+    const isLiked = evt.target.classList.contains('card__like-button_state_active');
+    const likeCount = currentCard.querySelector('.card__like-counter');
+
+    if (isLiked) {
+        apiClient
+            .setLikeById(cardId)
+            .then((value) => {
+                likeCount.textContent = value.likes?.length ?? 0;
+                console.info('Добавлен лайк для карточки:', cardId);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    } else {
+        apiClient
+            .deleteLikeById(cardId)
+            .then((value) => {
+                likeCount.textContent = value.likes?.length ?? 0;
+                console.info('Убран лайк с карточки:', cardId);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
 };
 
 function handleCardDelete(evt) {

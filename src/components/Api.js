@@ -72,6 +72,30 @@ export class Api {
         });
     }
 
+    setLikeById(cardId) {
+        return fetch(`${this.baseUrl}/cards/${cardId}/likes `, {
+            method: 'PUT',
+            headers: { ...this.headers, 'Content-Type': 'application/json' }
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+    }
+
+    deleteLikeById(cardId) {
+        return fetch(`${this.baseUrl}/cards/${cardId}/likes `, {
+            method: 'DELETE',
+            headers: { ...this.headers, 'Content-Type': 'application/json' }
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+    }
+
     getInitialCards() {
         console.info(this.baseUrl, this.headers);
     }

@@ -19,7 +19,7 @@ Class Card creates a card with text and a link to an image:
  * @param handleCardClick a popup opening function
  */
 export class Card {
-    constructor(cardData, templateContent, handleCardClick, handleCardConfirm) {
+    constructor(cardData, templateContent, handleCardClick, handleCardConfirm, handleLikeButton) {
         const { name, link, owner, _id: cardId, likes } = cardData;
         this.name = name;
         this.link = link;
@@ -30,14 +30,11 @@ export class Card {
 
         this.templateContent = templateContent;
         this.handleCardClick = handleCardClick;
+        this._handleCardConfirm = handleCardConfirm;
+        this._handleLikeButton = handleLikeButton;
 
         this._zoomPopupSelector = '#zoom-img';
         this._myId = 'e33c29cd8084db82bb563ae9';
-        this._handleCardConfirm = handleCardConfirm;
-    }
-
-    _handleLikeButton(evt) {
-        evt.target.classList.toggle('card__like-button_state_active');
     }
 
     _createCardFromTemplate(selector) {
