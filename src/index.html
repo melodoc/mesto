@@ -138,6 +138,24 @@
                 </div>
             </div>
         </div>
+        <div class="popup" id="delete-confirmation">
+            <div class="popup__container">
+                <button class="popup__button popup__button_action_close" type="button" title="Закрыть"></button>
+                <form class="popup__form" name="add-card-form">
+                    <div class="popup__wrapper popup__wrapper_type_confirmation">
+                        <h3 class="popup__heading">Вы уверены?</h3>
+                        <button
+                            value="Да"
+                            class="popup__button popup__button_action_submit"
+                            type="submit"
+                            title="Да"
+                        >
+                        Да
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <template id="card">
             <li class="card">
                 <button class="card__trash-button" type="button" title="Удалить"></button>

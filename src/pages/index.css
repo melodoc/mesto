@@ -51,6 +51,7 @@
 @import url('../blocks/popup/__heading/popup__heading.css');
 @import url('../blocks/popup/__field/popup__field.css');
 @import url('../blocks/popup/__wrapper/popup__wrapper.css');
+@import url('../blocks/popup/__wrapper/__wrapper_type/popup__wrapper_type_confirmation.css');
 @import url('../blocks/popup/__input/popup__input.css');
 @import url('../blocks/popup/__input/__input_type/popup__input_type_error.css');
 @import url('../blocks/popup/__image/popup__image.css');
