@@ -161,11 +161,12 @@ const addCardFormPopup = new PopupWithForm('#add-card .popup__form', (inputValue
             });
 
             renderedCards.addItem(createdCard, true);
-            addCardFormPopup.close();
             console.info('Успешно добавлена карточка', value);
         })
         .catch((err) => {
             console.error(err);
+        }).finally(() => {
+            addCardFormPopup.close();
         });
 });
 
@@ -197,7 +198,6 @@ const handleCardDelete = (evt) => {
 
 const handleLikeButton = (evt) => {
     evt.target.classList.toggle('card__like-button_state_active');
-
     const currentCard = evt.target.closest('.card');
     const cardId = currentCard.querySelector('.card__image').id;
     const isLiked = evt.target.classList.contains('card__like-button_state_active');
