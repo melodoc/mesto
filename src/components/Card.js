@@ -17,16 +17,21 @@ Class Card creates a card with text and a link to an image:
  * @param {cardData} cardData - The {@link cardData} to be created
  * @param templateContent template content
  * @param handleCardClick a popup opening function
+ * @param handleCardConfirm a popup confirm function
+ * @param handleLikeButton a popup like function
  */
 export class Card {
     constructor(cardData, templateContent, handleCardClick, handleCardConfirm, handleLikeButton) {
         const { name, link, owner, _id: cardId, likes } = cardData;
+        this._myId = 'e33c29cd8084db82bb563ae9';
+
         this.name = name;
         this.link = link;
         this.userId = owner._id;
         this.cardId = cardId;
-        // if creating card set likes to 0
-        this.likes = likes?.length ?? 0;
+        // if creating card -- set default like
+        this.likes = likes ?? [];
+        this.likeCount = likes?.length ?? 0;
 
         this.templateContent = templateContent;
         this.handleCardClick = handleCardClick;
@@ -34,7 +39,7 @@ export class Card {
         this._handleLikeButton = handleLikeButton;
 
         this._zoomPopupSelector = '#zoom-img';
-        this._myId = 'e33c29cd8084db82bb563ae9';
+        this._activeCardClass = 'card__like-button_state_active';
     }
 
     _createCardFromTemplate(selector) {
@@ -42,38 +47,45 @@ export class Card {
     }
 
     _getCardElements(element, cardSelectors) {
-        const { header, image, like, deleteButton, likeCount } = cardSelectors;
+        const { header, image, like, deleteButton, likeButton, likeCount } = cardSelectors;
 
         return [
             element.querySelector(header),
             element.querySelector(image),
             element.querySelector(like),
             element.querySelector(deleteButton),
+            element.querySelector(likeButton),
             element.querySelector(likeCount)
         ];
     }
 
     createCard(cardSelectors) {
         const cardElement = this._createCardFromTemplate('.card');
-        const [header, image, like, deleteButton, likeCount] = this._getCardElements(cardElement, cardSelectors);
+        const [header, image, like, deleteButton, likeButton, likeCount] = this._getCardElements(
+            cardElement,
+            cardSelectors
+        );
+        const isLikedByMe = this.likes.some((value) => value._id === this._myId);
 
         header.textContent = this.name;
         image.alt = this.name;
         image.name = this.name;
         image.src = this.link;
         image.id = this.cardId;
-        likeCount.textContent = this.likes;
+        likeCount.textContent = this.likeCount;
 
         image.addEventListener('click', () => {
             this.handleCardClick({ name: this.name, src: this.link });
         });
 
-        if (this.userId === this._myId) {
-            deleteButton.addEventListener('click', () => {
-                this._handleCardConfirm(this.cardId);
-            });
-        } else {
-            deleteButton.style.display = 'none';
+        this.userId === this._myId
+            ? deleteButton.addEventListener('click', () => {
+                  this._handleCardConfirm(this.cardId);
+              })
+            : (deleteButton.style.display = 'none');
+
+        if (isLikedByMe) {
+            likeButton.classList.add(this._activeCardClass);
         }
 
         like.addEventListener('click', this._handleLikeButton);
