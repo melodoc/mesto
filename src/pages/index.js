@@ -16,7 +16,12 @@ const openProfileButton = document.querySelector('.profile__button_action_edit')
 // input elements
 const profilePopupNameInput = document.querySelector('.popup__input_type_name');
 const profilePopupAboutInput = document.querySelector('.popup__input_type_about');
-const profilePopupSaveButton = document.querySelector('.popup__button_action_submit');
+
+// Buttons
+const profilePopupSaveButton = document.querySelector('#profile .popup__button_action_submit');
+const updateAvatarButton = document.querySelector('#update-avatar .popup__button_action_submit')
+const deleteCardPopupSaveButton = document.querySelector('#delete-confirmation .popup__button_action_submit');
+const addCardFormButton = document.querySelector('#add-card .popup__button_action_submit');
 
 //profile names
 const profileAvatar = document.querySelector(profileSelectors.avatarWrapperSelector);
@@ -31,9 +36,6 @@ const openAddCardButton = document.querySelector('.profile__button_action_add');
 
 // cards container
 const cardsContainer = document.querySelector('.photo-grid__list');
-
-// cards button
-const deleteCardPopupSaveButton = document.querySelector('#delete-confirmation .popup__button_action_submit');
 
 cardsContainer.textContent = loadingState.text;
 
@@ -149,6 +151,7 @@ const handleOpenProfileButton = () => {
 };
 
 const handleAddCardFormPopup = (inputValues) => {
+    addCardFormButton.textContent = 'Добавление...';
     apiClient
         .addNewCard(inputValues.title, inputValues.url)
         .then((value) => {
@@ -160,12 +163,13 @@ const handleAddCardFormPopup = (inputValues) => {
             });
 
             renderedCards.addItem(createdCard, true);
-            console.info('Успешно добавлена карточка', value);
+            console.info('Успешно добавлена карточка', value.name);
         })
         .catch((err) => {
             console.error(err);
         })
         .finally(() => {
+            addCardFormButton.textContent = 'Сохранить';
             addCardFormPopup.close();
         });
 };
@@ -227,7 +231,7 @@ const handleUpdateAvatar = (evt) => {
     evt.preventDefault();
     const { name, about } = profileFormUserInfo.getUserInfo();
     const avatar = document.querySelector('#update-avatar .popup__form').querySelector('.popup__input').value;
-    profilePopupSaveButton.textContent = 'Сохранение...';
+    updateAvatarButton.textContent = 'Сохранение...';
     apiClient
         .updateUserAvatar(avatar)
         .then((value) => {
@@ -238,7 +242,7 @@ const handleUpdateAvatar = (evt) => {
             console.error(err);
         })
         .finally(() => {
-            deleteCardPopupSaveButton.textContent = 'Сохранить';
+            updateAvatarButton.textContent = 'Сохранить';
             popupAvatarUpdate.close();
         });
 };
