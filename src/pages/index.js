@@ -1,4 +1,4 @@
-import { config, cardSelectors, profileSelectors, requestParams, loadingText } from '../constants/constants.js';
+import { config, cardSelectors, profileSelectors, requestParams, loadingState } from '../constants/constants.js';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
@@ -8,7 +8,6 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js';
 import { UserInfo } from '../components/UserInfo.js';
-import loader from '../images/loader.gif';
 import './index.css';
 
 // open-close profile elements
@@ -20,9 +19,7 @@ const profilePopupAboutInput = document.querySelector('.popup__input_type_about'
 const profilePopupSaveButton = document.querySelector('.popup__button_action_submit');
 
 //profile names
-const profileName = document.querySelector(profileSelectors.nameSelector);
-const profileAbout = document.querySelector(profileSelectors.aboutSelector);
-const profileAvatar = document.querySelector(profileSelectors.avatarSelector);
+const profileAvatar = document.querySelector(profileSelectors.avatarWrapperSelector);
 
 // submit form elements
 const profileForm = document.querySelector('#profile .popup__form');
@@ -58,14 +55,7 @@ const createCard = (item) => {
     ).createCard(cardSelectors);
 };
 
-const setLoadingState = () => {
-    profileName.textContent = loadingText;
-    profileAbout.textContent = loadingText;
-    profileAvatar.src = loader;
-    cardsContainer.textContent = loadingText;
-};
-
-setLoadingState();
+cardsContainer.textContent = loadingState.text;
 
 const renderedCards = new Section(
     {
@@ -107,27 +97,35 @@ const enableValidation = (config) => {
 
 enableValidation(config);
 
+const profileFormUserInfo = new UserInfo({
+    nameSelector: profileSelectors.nameSelector,
+    aboutSelector: profileSelectors.aboutSelector,
+    avatarSelector: profileSelectors.avatarSelector
+});
+
+profileFormUserInfo.setUserInfo({
+    name: loadingState.text,
+    about: loadingState.text,
+    avatar: loadingState.img
+});
+
 apiClient
     .getUserInformation()
     .then((value) => {
-        profileName.textContent = value.name;
-        profileAbout.textContent = value.about;
-        profileAvatar.src = value.avatar;
+        const { name, about, avatar } = value;
+        profileFormUserInfo.setUserInfo({ name, about, avatar });
     })
     .catch((err) => {
         console.error(err);
     });
 
-const profileFormUserInfo = new UserInfo({
-    nameSelector: profileSelectors.nameSelector,
-    aboutSelector: profileSelectors.aboutSelector
-});
-
 const profileFormPopup = new PopupWithForm('#profile .popup__form', ({ name, about }) => {
     profilePopupSaveButton.textContent = 'Сохранение...';
+    const { avatar } = profileFormUserInfo.getUserInfo();
     apiClient
         .editProfile(name, about)
         .then(() => {
+            profileFormUserInfo.setUserInfo({ name, about, avatar });
             console.info('Успешно обновлены данные профиля');
         })
         .catch((err) => {
@@ -135,10 +133,8 @@ const profileFormPopup = new PopupWithForm('#profile .popup__form', ({ name, abo
         })
         .finally(() => {
             profilePopupSaveButton.textContent = 'Сохранить';
+            profileFormPopup.close();
         });
-
-    profileFormUserInfo.setUserInfo({ name, about });
-    profileFormPopup.close();
 });
 
 profileFormPopup.setEventListeners();
@@ -180,11 +176,23 @@ openAddCardButton.addEventListener('click', () => {
     addCardFormPopup.open();
 });
 
-const popupDeleteConfirmation = new PopupWithConfirmation('#delete-confirmation .popup__form', handleCardDelete);
-popupDeleteConfirmation.setEventListeners();
-
-const handleCardConfirm = (id) => {
-    popupDeleteConfirmation.open(id);
+const handleCardDelete = (evt) => {
+    evt.preventDefault();
+    const cardId = popupDeleteConfirmation.getCardId();
+    deleteCardPopupSaveButton.textContent = 'Удаление...';
+    apiClient
+        .deleteCardById(cardId)
+        .then(() => {
+            document.getElementById(cardId).closest('.card').remove();
+            console.info('Удалена карточка:', cardId);
+        })
+        .catch((err) => {
+            console.error(err);
+        })
+        .finally(() => {
+            deleteCardPopupSaveButton.textContent = 'Да';
+            popupDeleteConfirmation.close();
+        });
 };
 
 const handleLikeButton = (evt) => {
@@ -218,21 +226,36 @@ const handleLikeButton = (evt) => {
     }
 };
 
-function handleCardDelete(evt) {
+const popupDeleteConfirmation = new PopupWithConfirmation('#delete-confirmation .popup__form', handleCardDelete);
+popupDeleteConfirmation.setEventListeners();
+
+const handleCardConfirm = (id) => {
+    popupDeleteConfirmation.open(id);
+};
+
+const handleUpdateAvatar = (evt) => {
     evt.preventDefault();
-    const cardId = popupDeleteConfirmation.getCardId();
-    deleteCardPopupSaveButton.textContent = 'Удаление...';
+    const { name, about } = profileFormUserInfo.getUserInfo();
+    const avatar = document.querySelector('#update-avatar .popup__form').querySelector('.popup__input').value;
+    profilePopupSaveButton.textContent = 'Сохранение...';
     apiClient
-        .deleteCardById(cardId)
-        .then(() => {
-            document.getElementById(cardId).closest('.card').remove();
-            console.info('Удалена карточка:', cardId);
+        .updateUserAvatar(avatar)
+        .then((value) => {
+            profileFormUserInfo.setUserInfo({ name, about, avatar });
+            console.info('Успешно обновлен аватар профиля', value);
         })
         .catch((err) => {
             console.error(err);
         })
         .finally(() => {
-            deleteCardPopupSaveButton.textContent = 'Да';
+            deleteCardPopupSaveButton.textContent = 'Сохранить';
+            popupAvatarUpdate.close();
         });
-    popupDeleteConfirmation.close();
-}
+};
+
+const popupAvatarUpdate = new PopupWithConfirmation('#update-avatar .popup__form', handleUpdateAvatar);
+popupAvatarUpdate.setEventListeners();
+
+profileAvatar.addEventListener('click', (evt) => {
+    popupAvatarUpdate.open();
+});

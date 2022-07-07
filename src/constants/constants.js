@@ -25,7 +25,8 @@ export const config = {
 export const profileSelectors = {
     nameSelector: '.profile__name',
     aboutSelector: '.profile__text',
-    avatarSelector: '.profile__avatar'
+    avatarSelector: '.profile__avatar',
+    avatarWrapperSelector: '.profile__wrapper',
 }
 
 export const requestParams = {
@@ -37,3 +38,8 @@ export const requestParams = {
 };
 
 export const loadingText = 'Загрузка...';
+
+export const loadingState = {
+    text: 'Загрузка...',
+    img: 'https://raw.githubusercontent.com/melodoc/mesto/develop/src/images/loader.gif'
+};

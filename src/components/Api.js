@@ -96,6 +96,19 @@ export class Api {
         });
     }
 
+    updateUserAvatar(avatar) {
+        return fetch(`${this.baseUrl}/users/me/avatar`, {
+            method: 'PATCH',
+            headers: { ...this.headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ avatar })
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+    }
+
     getInitialCards() {
         console.info(this.baseUrl, this.headers);
     }
