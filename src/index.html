@@ -17,7 +17,9 @@
         </header>
         <main class="main">
             <section class="profile">
-                <img class="profile__avatar" src="<%=require('./images/profile/avatar.jpg')%>" alt="Аватар" />
+                <a class="profile__wrapper">
+                    <img class="profile__avatar" src="<%=require('./images/profile/avatar.jpg')%>" alt="Аватар" />
+                </a>
                 <div class="profile__info">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
                     <button
@@ -35,7 +37,7 @@
             </section>
         </main>
         <footer class="footer">
-            <p class="footer__copyright">© 2021. melodoc</p>
+            <p class="footer__copyright">© 2022. melodoc</p>
         </footer>
         <div class="popup" id="profile">
             <div class="popup__container">
@@ -138,13 +140,65 @@
                 </div>
             </div>
         </div>
+        <div class="popup" id="delete-confirmation">
+            <div class="popup__container">
+                <button class="popup__button popup__button_action_close" type="button" title="Закрыть"></button>
+                <form class="popup__form" name="add-card-form">
+                    <div class="popup__wrapper popup__wrapper_type_confirmation">
+                        <h3 class="popup__heading">Вы уверены?</h3>
+                        <button
+                            value="Да"
+                            class="popup__button popup__button_action_submit"
+                            type="submit"
+                            title="Да"
+                        >
+                        Да
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="popup" id="update-avatar">
+            <div class="popup__container">
+                <button class="popup__button popup__button_action_close" type="button" title="Закрыть"></button>
+                <form class="popup__form" name="add-card-form">
+                    <div class="popup__wrapper popup__wrapper_type_confirmation">
+                        <h3 class="popup__heading">Обновить аватар</h3>
+                        <label class="popup__field">
+                            <input
+                                id="title"
+                                name="title"
+                                type="url"
+                                required
+                                class="popup__input popup__input_type_title"
+                                placeholder="Ссылка"
+                                autocomplete="off"
+                                minlength="2"
+                            />
+                            <span class="title-error"></span>
+                        </label>
+                        <button
+                            value="Сохранить"
+                            class="popup__button popup__button_action_submit"
+                            type="submit"
+                            title="Сохранить"
+                        >
+                        Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <template id="card">
             <li class="card">
                 <button class="card__trash-button" type="button" title="Удалить"></button>
                 <img class="card__image" />
                 <div class="card__description">
                     <h2 class="card__header"></h2>
-                    <button class="card__like-button" type="button" title="Нравится"></button>
+                    <div>
+                        <button class="card__like-button" type="button" title="Нравится"></button>
+                        <p class="card__like-counter">2</p>
+                    </div>
                 </div>
             </li>
         </template>

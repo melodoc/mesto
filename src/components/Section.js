@@ -37,4 +37,10 @@ export class Section {
             this.containerElement.append(domElement);
         }
     }
+
+    setCards(cards) {
+        cards.forEach((card) => {
+            this.renderer(card);
+        });
+    }
 }
