@@ -3,6 +3,7 @@ export const cardSelectors = {
     image: '.card__image',
     like: '.card__like-button',
     deleteButton: '.card__trash-button',
+    likeButton: '.card__like-button',
     likeCount: '.card__like-counter'
 };
 
