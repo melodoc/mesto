@@ -19,24 +19,22 @@ Class Card creates a card with text and a link to an image:
  * @param handleCardClick a popup opening function
  */
 export class Card {
-    constructor(cardData, templateContent, handleCardClick ) {
-        const { name, link } = cardData;
+    constructor(cardData, templateContent, handleCardClick, handleCardConfirm, handleLikeButton) {
+        const { name, link, owner, _id: cardId, likes } = cardData;
         this.name = name;
         this.link = link;
+        this.userId = owner._id;
+        this.cardId = cardId;
+        // if creating card set likes to 0
+        this.likes = likes?.length ?? 0;
 
         this.templateContent = templateContent;
         this.handleCardClick = handleCardClick;
-        
+        this._handleCardConfirm = handleCardConfirm;
+        this._handleLikeButton = handleLikeButton;
+
         this._zoomPopupSelector = '#zoom-img';
-    }
-
-    _handleLikeButton(evt) {
-        evt.target.classList.toggle('card__like-button_state_active');
-    }
-
-    _handleDeleteButton(evt) {
-        const cardElement = evt.target.closest('.card');
-        cardElement.remove();
+        this._myId = 'e33c29cd8084db82bb563ae9';
     }
 
     _createCardFromTemplate(selector) {
@@ -44,31 +42,41 @@ export class Card {
     }
 
     _getCardElements(element, cardSelectors) {
-        const { header, image, like, deleteButton } = cardSelectors;
+        const { header, image, like, deleteButton, likeCount } = cardSelectors;
 
         return [
             element.querySelector(header),
             element.querySelector(image),
             element.querySelector(like),
-            element.querySelector(deleteButton)
+            element.querySelector(deleteButton),
+            element.querySelector(likeCount)
         ];
     }
 
     createCard(cardSelectors) {
         const cardElement = this._createCardFromTemplate('.card');
-        const [header, image, like, deleteButton] = this._getCardElements(cardElement, cardSelectors);
+        const [header, image, like, deleteButton, likeCount] = this._getCardElements(cardElement, cardSelectors);
 
         header.textContent = this.name;
         image.alt = this.name;
         image.name = this.name;
         image.src = this.link;
+        image.id = this.cardId;
+        likeCount.textContent = this.likes;
 
         image.addEventListener('click', () => {
             this.handleCardClick({ name: this.name, src: this.link });
         });
 
+        if (this.userId === this._myId) {
+            deleteButton.addEventListener('click', () => {
+                this._handleCardConfirm(this.cardId);
+            });
+        } else {
+            deleteButton.style.display = 'none';
+        }
+
         like.addEventListener('click', this._handleLikeButton);
-        deleteButton.addEventListener('click', this._handleDeleteButton);
 
         return cardElement;
     }
