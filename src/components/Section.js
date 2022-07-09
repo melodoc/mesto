@@ -18,8 +18,7 @@ Contains public methods:
  */
 export class Section {
     constructor(sectionData, containerSelector) {
-        const { items, renderer } = sectionData;
-        this.items = items;
+        const { renderer } = sectionData;
         this.renderer = renderer;
         this.containerElement = document.querySelector(containerSelector);
     }

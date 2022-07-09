@@ -44,35 +44,11 @@ const popupImage = new PopupWithImage('#zoom-img');
 popupImage.setEventListeners();
 
 const apiClient = new Api(requestParams);
-
-const createCard = (item) => {
-    return new Card(
-        item,
-        // получать с сервера и передавать в конструктор
-        'e33c29cd8084db82bb563ae9',
-        cardTemplate,
-        ({ name, src }) => {
-            popupImage.open({ name, src });
-        },
-        handleCardConfirm,
-        handleLikeButton
-    ).createCard(cardSelectors);
-};
-
-const renderedCards = new Section(
-    {
-        items: [],
-        renderer: (card) => {
-            const createdCard = createCard(card);
-            renderedCards.addItem(createdCard);
-        }
-    },
-    config.cardListSelector
-);
+let userId = '';
 
 Promise.all([apiClient.getUserInformation(), apiClient.getCards()])
     .then(([userInformation, cards]) => {
-        console.log(userInformation._id);
+        userId = userInformation._id;
         const { name, about, avatar } = userInformation;
         profileFormUserInfo.setUserInfo({ name, about, avatar });
 
@@ -82,6 +58,31 @@ Promise.all([apiClient.getUserInformation(), apiClient.getCards()])
     .catch((err) => {
         console.error(err);
     });
+
+const createCard = (item) => {
+    const card = new Card(
+        item,
+        userId,
+        cardTemplate,
+        ({ name, src }) => {
+            popupImage.open({ name, src });
+        },
+        handleCardConfirm,
+        handleLikeButton
+    );
+
+    return card.createCard(cardSelectors);
+};
+
+const renderedCards = new Section(
+    {
+        renderer: (card) => {
+            const createdCard = createCard(card);
+            renderedCards.addItem(createdCard);
+        }
+    },
+    config.cardListSelector
+);
 
 // enable validation for forms
 
@@ -222,10 +223,10 @@ const handleUpdateAvatar = (evt) => {
     renderLoading(updateAvatarButton, buttonType.LOADING);
     apiClient
         .updateUserAvatar(profileAvatarInput.value)
-        .then((value) => {
+        .then((user) => {
             profileFormUserInfo.setUserAvatar(profileAvatarInput.value);
             popupAvatarUpdate.close();
-            console.info('Успешно обновлен аватар профиля', value);
+            console.info('Успешно обновлен аватар профиля', user.avatar);
         })
         .catch((err) => {
             console.error(err);
