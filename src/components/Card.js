@@ -21,9 +21,9 @@ Class Card creates a card with text and a link to an image:
  * @param handleLikeButton a popup like function
  */
 export class Card {
-    constructor(cardData, templateContent, handleCardClick, handleCardConfirm, handleLikeButton) {
+    constructor(cardData, _myId, templateContent, handleCardClick, handleCardConfirm, handleLikeButton) {
         const { name, link, owner, _id: cardId, likes } = cardData;
-        this._myId = 'e33c29cd8084db82bb563ae9';
+        this._myId = _myId;
 
         this.name = name;
         this.link = link;

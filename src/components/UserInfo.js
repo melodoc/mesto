@@ -1,3 +1,4 @@
+import { loadingState } from '../constants/constants.js';
 /** *
  * UserInfo is responsible for setting profileFormPopup data
  *
@@ -16,13 +17,22 @@ export class UserInfo {
         return {
             name: this.name.textContent,
             about: this.about.textContent,
-            avatar: this.avatar.src,
+            avatar: this.avatar.src
         };
     }
 
     setUserInfo({ name, about, avatar }) {
-        this.name.textContent = name;
-        this.about.textContent = about;
-        this.avatar.src = avatar;
+        this.name.textContent = name ?? loadingState.text;
+        this.about.textContent = about ?? loadingState.text;
+        this.avatar.src = avatar ?? loadingState.img;
+    }
+
+    setUserAvatar(avatar) {
+        this.avatar.src = avatar ?? loadingState.img;
+    }
+
+    setUserNameInfo({ name, about }) {
+        this.name.textContent = name ?? loadingState.text;
+        this.about.textContent = about ?? loadingState.text;
     }
 }

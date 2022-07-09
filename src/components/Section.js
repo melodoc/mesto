@@ -24,12 +24,6 @@ export class Section {
         this.containerElement = document.querySelector(containerSelector);
     }
 
-    render() {
-        this.items.forEach((item) => {
-            this.renderer(item);
-        });
-    }
-
     addItem(domElement, isBefore) {
         if (isBefore) {
             this.containerElement.prepend(domElement);
