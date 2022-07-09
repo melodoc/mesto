@@ -1,4 +1,5 @@
 import { config, cardSelectors, profileSelectors, requestParams, loadingState } from '../constants/constants.js';
+import { renderLoading, buttonType, messageType } from '../utils/utils.js';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
@@ -113,11 +114,11 @@ profileFormUserInfo.setUserInfo({
 
 // Handlers for events
 const handleProfileFormPopup = ({ name, about }) => {
-    profilePopupSaveButton.textContent = 'Сохранение...';
+    renderLoading(profilePopupSaveButton, buttonType.LOADING);
     apiClient
         .editProfile(name, about)
         .then(() => {
-            profileFormUserInfo.setUserNameInfo({ name, about});
+            profileFormUserInfo.setUserNameInfo({ name, about });
             popupEditProfile.close();
             console.info('Успешно обновлены данные профиля');
         })
@@ -125,7 +126,7 @@ const handleProfileFormPopup = ({ name, about }) => {
             console.error(err);
         })
         .finally(() => {
-            profilePopupSaveButton.textContent = 'Сохранить';
+            renderLoading(profilePopupSaveButton, buttonType.UPLOADED);
         });
 };
 
@@ -140,7 +141,7 @@ const handleOpenProfileButton = () => {
 };
 
 const handleAddCardFormPopup = (inputValues) => {
-    addCardFormButton.textContent = 'Добавление...';
+    renderLoading(addCardFormButton, buttonType.LOADING);
     apiClient
         .addNewCard(inputValues.title, inputValues.url)
         .then((value) => {
@@ -159,7 +160,7 @@ const handleAddCardFormPopup = (inputValues) => {
             console.error(err);
         })
         .finally(() => {
-            addCardFormButton.textContent = 'Сохранить';
+            renderLoading(addCardFormButton, buttonType.UPLOADED);
         });
 };
 
@@ -196,7 +197,7 @@ const handleLikeButton = (evt) => {
 const handleCardDelete = (evt) => {
     evt.preventDefault();
     const cardId = popupDeleteConfirmation.getCardId();
-    deleteCardPopupSaveButton.textContent = 'Удаление...';
+    renderLoading(deleteCardPopupSaveButton, buttonType.LOADING, messageType.DELETE);
     apiClient
         .deleteCardById(cardId)
         .then(() => {
@@ -208,7 +209,7 @@ const handleCardDelete = (evt) => {
             console.error(err);
         })
         .finally(() => {
-            deleteCardPopupSaveButton.textContent = 'Да';
+            renderLoading(deleteCardPopupSaveButton, buttonType.UPLOADED, messageType.DELETE);
         });
 };
 
@@ -218,7 +219,7 @@ const handleCardConfirm = (id) => {
 
 const handleUpdateAvatar = (evt) => {
     evt.preventDefault();
-    updateAvatarButton.textContent = 'Сохранение...';
+    renderLoading(updateAvatarButton, buttonType.LOADING);
     apiClient
         .updateUserAvatar(profileAvatarInput.value)
         .then((value) => {
@@ -230,7 +231,7 @@ const handleUpdateAvatar = (evt) => {
             console.error(err);
         })
         .finally(() => {
-            updateAvatarButton.textContent = 'Сохранить';
+            renderLoading(updateAvatarButton, buttonType.UPLOADED);
         });
 };
 
