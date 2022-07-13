@@ -165,29 +165,23 @@ const handleAddCardFormPopup = (inputValues) => {
         });
 };
 
-const handleLikeButton = (evt) => {
-    evt.target.classList.toggle('card__like-button_state_active');
-    const currentCard = evt.target.closest('.card');
-    const cardId = currentCard.querySelector('.card__image').id;
-    const isLiked = evt.target.classList.contains('card__like-button_state_active');
-    const likeCount = currentCard.querySelector('.card__like-counter');
-
+const handleLikeButton = (isLiked, cardId, likeCount) => {
     if (isLiked) {
         apiClient
-            .setLikeById(cardId)
+            .deleteLikeById(cardId)
             .then((value) => {
                 likeCount.textContent = value.likes?.length ?? 0;
-                console.info('Добавлен лайк для карточки:', cardId);
+                console.info('Убран лайк с карточки:', value.name, value._id);
             })
             .catch((err) => {
                 console.error(err);
             });
     } else {
         apiClient
-            .deleteLikeById(cardId)
+            .setLikeById(cardId)
             .then((value) => {
                 likeCount.textContent = value.likes?.length ?? 0;
-                console.info('Убран лайк с карточки:', cardId);
+                console.info('Добавлен лайк для карточки:', value.name, value._id);
             })
             .catch((err) => {
                 console.error(err);
