@@ -27,9 +27,9 @@ export class Card {
 
         this.name = name;
         this.link = link;
-        this.userId = owner._id;
+        this.owner = owner;
         this.cardId = cardId;
-        // if creating card -- set default like
+
         this.likes = likes ?? [];
         this.likeCount = likes?.length ?? 0;
 
@@ -39,7 +39,7 @@ export class Card {
         this._handleLikeButton = handleLikeButton;
 
         this._zoomPopupSelector = '#zoom-img';
-        this._activeCardClass = 'card__like-button_state_active';
+        this._activeCardLikeClass = 'card__like-button_state_active';
     }
 
     _createCardFromTemplate(selector) {
@@ -59,36 +59,44 @@ export class Card {
         ];
     }
 
+    _setInitialCardLikeState({ button, count }) {
+        const isPreviouslyLiked = this.likes.some((value) => value._id === this._myId);
+        if (isPreviouslyLiked) {
+            button.classList.add(this._activeCardLikeClass);
+        }
+        count.textContent = this.likeCount;
+    }
+
     createCard(cardSelectors) {
         const cardElement = this._createCardFromTemplate('.card');
         const [header, image, like, deleteButton, likeButton, likeCount] = this._getCardElements(
             cardElement,
             cardSelectors
         );
-        const isLikedByMe = this.likes.some((value) => value._id === this._myId);
 
         header.textContent = this.name;
         image.alt = this.name;
         image.name = this.name;
         image.src = this.link;
         image.id = this.cardId;
-        likeCount.textContent = this.likeCount;
 
         image.addEventListener('click', () => {
             this.handleCardClick({ name: this.name, src: this.link });
         });
 
-        this.userId === this._myId
+        this._setInitialCardLikeState({ button: likeButton, count: likeCount });
+
+        this.owner._id === this._myId
             ? deleteButton.addEventListener('click', () => {
                   this._handleCardConfirm(this.cardId);
               })
             : (deleteButton.style.display = 'none');
 
-        if (isLikedByMe) {
-            likeButton.classList.add(this._activeCardClass);
-        }
-
-        like.addEventListener('click', this._handleLikeButton);
+        like.addEventListener('click', () => {
+            const isLiked = likeButton.classList.contains(this._activeCardLikeClass);
+            likeButton.classList.toggle(this._activeCardLikeClass);
+            this._handleLikeButton(isLiked, this.cardId, likeCount);
+        });
 
         return cardElement;
     }
